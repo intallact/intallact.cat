@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intallact</title>
+  <meta name="description" content="Intallact — developer portfolio" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%2311c5ff'/%3E%3Cstop stop-color='%237aa8ff' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='44' fill='url(%23g)'/%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg-0:#071320;
+      --txt:#e6f3ff;
+      --muted:#a9c3da;
+      --pri:#6fb3ff;
+      --pri-2:#11c5ff;
+      --glass:rgba(255,255,255,.06);
+      --ring:rgba(111,179,255,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(17,197,255,.25), transparent 60%),
+        radial-gradient(1000px 600px at 110% 20%, rgba(111,179,255,.18), transparent 60%),
+        linear-gradient(180deg,#060f1a 0%, var(--bg-0) 80%);
+      overflow-x:hidden;
+      min-height:100svh;
+    }
+    a{color:var(--pri);text-decoration:none}
+    a:hover{filter:brightness(1.12)}
+    .container{max-width:980px;margin:0 auto;padding:clamp(20px,4vw,48px);position:relative;z-index:1}
+
+    /* Floating background images (slow, cloud-like) */
+    .floaters{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .floaters img{position:absolute;opacity:.22;filter:drop-shadow(0 0 22px rgba(111,179,255,.15));will-change:transform}
+    .f1{top:12vh;left:-25vw;width:260px;animation:drift-right 90s linear infinite}
+    .f2{top:48vh;left:115vw;width:200px;animation:drift-left 120s linear infinite 6s}
+    .f3{top:78vh;left:-35vw;width:300px;animation:drift-right 150s linear infinite 12s}
+    @keyframes drift-right{from{transform:translateX(0)}to{transform:translateX(160vw)}}
+    @keyframes drift-left {from{transform:translateX(0)}to{transform:translateX(-160vw)}}
+    @media (prefers-reduced-motion:reduce){.floaters{display:none}}
+
+    /* Header / hero */
+    header{
+      position:relative;overflow:hidden;border-radius:28px;padding:clamp(28px,6vw,56px);
+      background:linear-gradient(180deg,rgba(111,179,255,.10),rgba(17,197,255,.06));
+      box-shadow:0 10px 40px -10px rgba(0,0,0,.6),inset 0 0 0 1px var(--ring);
+      isolation:isolate;
+    }
+    .hero{display:flex;gap:clamp(16px,4vw,40px);align-items:center;flex-wrap:wrap}
+    .pfp{
+      width:108px;height:108px;border-radius:24px;overflow:hidden;
+      box-shadow:0 0 36px rgba(17,197,255,.55), 0 0 12px rgba(111,179,255,.35) inset;
+    }
+    .pfp img{width:100%;height:100%;object-fit:cover;display:block;filter:drop-shadow(0 0 18px rgba(111,179,255,.55))}
+    .title h1{margin:0;font-size:clamp(28px,5vw,48px)}
+    .title p.meta{margin:.25rem 0 0;color:var(--muted)}
+    .chips{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--ring);color:var(--muted);font-weight:600}
+
+    /* Sections */
+    .card{margin-top:28px;padding:clamp(20px,3.5vw,32px);border-radius:20px;
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+      border:1px solid var(--ring);backdrop-filter:blur(6px)}
+    .card h2{margin:0 0 10px;font-size:clamp(20px,3vw,28px)}
+    .muted{color:var(--muted)}
+    .prose{font-size:1.05rem}
+    .prose .kindabold{font-weight:700;color:#fff}
+
+    /* Riley badge (single, image) */
+    .badge-link{display:inline-block;margin-top:12px}
+    .badge-img{height:31px;width:auto;border-radius:6px;border:1px solid var(--ring);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+
+    /* Footer socials */
+    footer{margin:56px 0 8px;padding-top:18px;border-top:1px solid var(--ring)}
+    .socials{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap}
+    .socials a{color:var(--txt);font-weight:600;opacity:.9}
+    .socials a:hover{filter:brightness(1.12)}
+    .heart{opacity:.6}
+  </style>
+</head>
+<body>
+  <!-- Slow drifting background images -->
+  <div class="floaters" aria-hidden="true">
+    <img class="f1" src="images/cloud1.png" alt="">
+    <img class="f2" src="images/cloud2.png" alt="">
+    <img class="f3" src="images/cloud3.png" alt="">
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="hero">
+        <!-- Your image with glow -->
+        <div class="pfp"><img src="images/pfp.png" alt="Intallact profile"></div>
+        <div class="title">
+          <h1>Hey! I'm Intallact</h1>
+          <p class="meta">Eindhoven, Netherlands • he/him • 16</p>
+          <div class="chips" aria-label="interests">
+            <span class="chip">developer</span>
+            <span class="chip">crystal pvper</span>
+            <span class="chip">anime enjoyer</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card prose" aria-labelledby="about-title">
+      <h2 id="about-title">about me</h2>
+      <!-- Your original text preserved -->
+      <p>
+        I'm a  java developer with<span class="kindabold"> 3 years</span> of experience, im also good with server configuration
+      </p>
+      <p>I mostly work on plugins, but I'm running out of ideas sooooo, website!</p>
+      <p>A bit about me: My favourite anime is the seven deadly sins, Overall i've watched alot of animes, My favourite pokemon is shaymin, my favourite colours are (light) blue and orange!</p>
+    </section>
+
+    <section class="card" aria-labelledby="links-title">
+      <h2 id="links-title">links</h2>
+      <p class="muted">💙</p>
+      <a class="badge-link" href="https://riley.cat" target="_blank" rel="noopener">
+        <img class="badge-img" src="images/riley-badge.png" alt="riley.cat">
+      </a>
+    </section>
+
+    <footer aria-label="social links">
+      <nav class="socials">
+        <a href="https://discord.com/users/1011756509501333532" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com/Intallact" target="_blank" rel="noopener">GitHub</a>
+        <span class="heart" aria-hidden="true">♥</span>
+        <a href="https://www.youtube.com/@intallactw" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">???</a>
+      </nav>
+    </footer>
+  </div>
+</body>
+</html>
