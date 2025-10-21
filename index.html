@@ -3,138 +3,291 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Intallact</title>
-  <meta name="description" content="Intallact — developer portfolio" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%2311c5ff'/%3E%3Cstop stop-color='%237aa8ff' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='44' fill='url(%23g)'/%3E%3C/svg%3E" />
+  <title>Happy 16th, Riley! 🎉</title>
   <style>
     :root{
-      --bg-0:#071320;
-      --txt:#e6f3ff;
-      --muted:#a9c3da;
-      --pri:#6fb3ff;
-      --pri-2:#11c5ff;
-      --glass:rgba(255,255,255,.06);
-      --ring:rgba(111,179,255,.35);
+      --purple-1:#6f3ccf; /* base */
+      --purple-2:#a36df5; /* accent */
+      --purple-3:#3a0b6b; /* deep */
+      --text:#f7ecff;
+      --muted:#cdb7ff44;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;margin:0}
     body{
-      margin:0;
-      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
-      color:var(--txt);
-      background:
-        radial-gradient(1200px 700px at 10% -10%, rgba(17,197,255,.25), transparent 60%),
-        radial-gradient(1000px 600px at 110% 20%, rgba(111,179,255,.18), transparent 60%),
-        linear-gradient(180deg,#060f1a 0%, var(--bg-0) 80%);
+      color:var(--text);
       overflow-x:hidden;
-      min-height:100svh;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      /* Two-layer clean purple gradients */
+      background:
+        radial-gradient(1200px 800px at 10% 0%, #b489ff33 0%, transparent 60%),
+        radial-gradient(1200px 900px at 100% 100%, #8b5cf64d 0%, transparent 62%),
+        linear-gradient(135deg, var(--purple-3), var(--purple-1) 40%, var(--purple-2));
     }
-    a{color:var(--pri);text-decoration:none}
-    a:hover{filter:brightness(1.12)}
-    .container{max-width:980px;margin:0 auto;padding:clamp(20px,4vw,48px);position:relative;z-index:1}
 
-    /* Floating background images (slow, cloud-like) */
-    .floaters{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-    .floaters img{position:absolute;opacity:.22;filter:drop-shadow(0 0 22px rgba(111,179,255,.15));will-change:transform}
-    .f1{top:12vh;left:-25vw;width:260px;animation:drift-right 90s linear infinite}
-    .f2{top:48vh;left:115vw;width:200px;animation:drift-left 120s linear infinite 6s}
-    .f3{top:78vh;left:-35vw;width:300px;animation:drift-right 150s linear infinite 12s}
-    @keyframes drift-right{from{transform:translateX(0)}to{transform:translateX(160vw)}}
-    @keyframes drift-left {from{transform:translateX(0)}to{transform:translateX(-160vw)}}
-    @media (prefers-reduced-motion:reduce){.floaters{display:none}}
-
-    /* Header / hero */
-    header{
-      position:relative;overflow:hidden;border-radius:28px;padding:clamp(28px,6vw,56px);
-      background:linear-gradient(180deg,rgba(111,179,255,.10),rgba(17,197,255,.06));
-      box-shadow:0 10px 40px -10px rgba(0,0,0,.6),inset 0 0 0 1px var(--ring);
-      isolation:isolate;
+    /* Floating Latios/Latias */
+    .floaters{position:fixed; inset:0; pointer-events:none; z-index:5}
+    .floater{position:absolute; opacity:.9; filter: drop-shadow(0 10px 18px #0006);}
+    .floater img{height:120px; width:auto;}
+    @keyframes slowDrift1{
+      0%{transform:translate(-20%, 20%) rotate(0deg)}
+      50%{transform:translate(30vw, -10vh) rotate(4deg)}
+      100%{transform:translate(110vw, -30vh) rotate(0deg)}
     }
-    .hero{display:flex;gap:clamp(16px,4vw,40px);align-items:center;flex-wrap:wrap}
-    .pfp{
-      width:108px;height:108px;border-radius:24px;overflow:hidden;
-      box-shadow:0 0 36px rgba(17,197,255,.55), 0 0 12px rgba(111,179,255,.35) inset;
+    @keyframes slowDrift2{
+      0%{transform:translate(120vw, 100vh) rotate(0deg)}
+      50%{transform:translate(50vw, 40vh) rotate(-6deg)}
+      100%{transform:translate(-20vw, -10vh) rotate(0deg)}
     }
-    .pfp img{width:100%;height:100%;object-fit:cover;display:block;filter:drop-shadow(0 0 18px rgba(111,179,255,.55))}
-    .title h1{margin:0;font-size:clamp(28px,5vw,48px)}
-    .title p.meta{margin:.25rem 0 0;color:var(--muted)}
-    .chips{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-    .chip{padding:8px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--ring);color:var(--muted);font-weight:600}
+    .floater.latios{left:-120px; bottom:15vh; animation:slowDrift1 60s linear infinite;}
+    .floater.latias{right:-120px; top:10vh; animation:slowDrift2 70s linear infinite;}
 
-    /* Sections */
-    .card{margin-top:28px;padding:clamp(20px,3.5vw,32px);border-radius:20px;
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
-      border:1px solid var(--ring);backdrop-filter:blur(6px)}
-    .card h2{margin:0 0 10px;font-size:clamp(20px,3vw,28px)}
-    .muted{color:var(--muted)}
-    .prose{font-size:1.05rem}
-    .prose .kindabold{font-weight:700;color:#fff}
+    /* Center hero section */
+    header.hero{
+      min-height:100vh; display:grid; place-items:center; position:relative; z-index:10; padding:6rem 1rem 4rem;
+    }
+    .card{
+      max-width:980px; background: #ffffff0f; border:1px solid #ffffff1f; border-radius:28px; padding:28px 28px 24px;
+      backdrop-filter: blur(6px); box-shadow: 0 20px 60px #0005;
+    }
+    .title{ font-family: "Segoe Script","Bradley Hand", "Comic Neue", "Pacifico", cursive; font-size:clamp(1.8rem, 3vw + 1rem, 3rem); line-height:1.2; margin:0; letter-spacing:.5px;}
 
-    /* Riley badge (single, image) */
-    .badge-link{display:inline-block;margin-top:12px}
-    .badge-img{height:31px;width:auto;border-radius:6px;border:1px solid var(--ring);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+    .message{ margin-top:16px; font-size:clamp(1rem, .9rem + .6vw, 1.15rem); line-height:1.6; white-space:pre-wrap}
 
-    /* Footer socials */
-    footer{margin:56px 0 8px;padding-top:18px;border-top:1px solid var(--ring)}
-    .socials{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap}
-    .socials a{color:var(--txt);font-weight:600;opacity:.9}
-    .socials a:hover{filter:brightness(1.12)}
-    .heart{opacity:.6}
+    /* Text appear animation + purple particles */
+    .reveal{opacity:0; transform:translateY(6px);}
+    .reveal.visible{opacity:1; transform:none; transition:opacity .8s ease, transform .8s ease;}
+    .particles{position:absolute; inset:0; pointer-events:none; mix-blend-mode: screen;}
+    canvas#textParticles{position:absolute; inset:0;}
+
+    /* CTA hint */
+    .scroll-hint{display:flex; gap:.6rem; align-items:center; justify-content:center; margin-top:18px; opacity:.8; font-size:.95rem}
+    .scroll-hint .arrow{display:inline-block; border:solid var(--text); border-width:0 2px 2px 0; padding:5px; transform:rotate(45deg); margin-bottom:-2px}
+
+    /* Gallery */
+    section.gallery{min-height:100vh; padding:72px 16px 100px; position:relative}
+    .g-wrap{max-width:1080px; margin:0 auto}
+    .g-card{background:#ffffff0f; border:1px solid #ffffff1f; border-radius:22px; padding:16px 16px 28px; box-shadow:0 16px 40px #0005;}
+    .frame{position:relative; aspect-ratio:16/9; background:linear-gradient(180deg,#00000055,#00000022); border-radius:16px; overflow:hidden}
+    .frame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+    .g-controls{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px}
+    .btn{user-select:none; cursor:pointer; border:none; border-radius:999px; padding:12px 16px; font-weight:600; color:#25103b; background:linear-gradient(180deg,#e9d5ff,#d8b4fe); box-shadow:0 10px 18px #0004}
+    .btn:active{transform:translateY(1px)}
+    .caption{opacity:.9}
+
+    /* Confetti canvas on top */
+    #confetti{position:fixed; inset:0; pointer-events:none; z-index:999}
+
+    /* Credits (tiny, subtle) */
+    footer{opacity:.65; font-size:.85rem; text-align:center; padding:24px 12px}
   </style>
 </head>
 <body>
-  <!-- Slow drifting background images -->
+  <canvas id="confetti"></canvas>
+
+  <!-- Floating duo -->
   <div class="floaters" aria-hidden="true">
-    <img class="f1" src="images/cloud1.png" alt="">
-    <img class="f2" src="images/cloud2.png" alt="">
-    <img class="f3" src="images/cloud3.png" alt="">
+    <div class="floater latios"><img src="381.png" alt="Latios"></div>
+    <div class="floater latias"><img src="latias.png" alt="Latias"></div>
   </div>
 
-  <div class="container">
-    <header>
-      <div class="hero">
-        <!-- Your image with glow -->
-        <div class="pfp"><img src="images/pfp.png" alt="Intallact profile"></div>
-        <div class="title">
-          <h1>Hey! I'm Intallact</h1>
-          <p class="meta">Eindhoven, Netherlands • he/him • 16</p>
-          <div class="chips" aria-label="interests">
-            <span class="chip">developer</span>
-            <span class="chip">crystal pvper</span>
-            <span class="chip">anime enjoyer</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section class="card prose" aria-labelledby="about-title">
-      <h2 id="about-title">about me</h2>
-      <!-- Your original text preserved -->
-      <p>
-        I'm a  java developer with<span class="kindabold"> 3 years</span> of experience, im also good with server configuration
+  <header class="hero">
+    <div class="card reveal" id="heroCard" style="position:relative">
+      <canvas id="textParticles"></canvas>
+      <h1 class="title">HAII RILEY!!! HAPPY BIRTHDAYYYY!! 🎉🥳 FINALLY 16!</h1>
+      <p class="message" id="msg">
+I swear that feels so old (or atleast it did for me :C). Last year i couldn't even tell you happy birthday because we had gotten into an argument a bit before your birthday. Unfortunately something simmilair has happened this year but i couldn't get myself to possibly miss it again. I wanted to wish you an amazing day and i hope you really enjoy this day and spend time with your loved ones, I couldn't quite find a fitting birthday present for you so i hope you can accept the 3c as an early present for now, I'll make it up to you eventually somehow, i promise. Its okay if you dont have time right now but when you do, take a look at the collection of images at the bottom of the website, its a bunch of memories we made while you were 15. Stay strong and go spend some time with your family, you are a truly wonderful person.- Lenn <3.
       </p>
-      <p>I mostly work on plugins, but I'm running out of ideas sooooo, website!</p>
-      <p>A bit about me: My favourite anime is the seven deadly sins, Overall i've watched alot of animes, My favourite pokemon is shaymin, my favourite colours are (light) blue and orange!</p>
-    </section>
+      <div class="scroll-hint">
+        <span>Scroll for memories</span>
+        <i class="arrow"></i>
+      </div>
+    </div>
+  </header>
 
-    <section class="card" aria-labelledby="links-title">
-      <h2 id="links-title">links</h2>
-      <p class="muted">💙</p>
-      <a class="badge-link" href="https://riley.cat" target="_blank" rel="noopener">
-        <img class="badge-img" src="images/riley-badge.png" alt="riley.cat">
-      </a>
-    </section>
+  <section class="gallery" id="gallery">
+    <div class="g-wrap">
+      <div class="g-card">
+        <div class="frame">
+          <img id="slide" src="2025-09-21_21.02.52.png" alt="Memory 1">
+        </div>
+        <div class="g-controls">
+          <button class="btn" id="prevBtn" aria-label="Previous image">← Prev</button>
+          <div class="caption" id="cap">1 / 6</div>
+          <button class="btn" id="nextBtn" aria-label="Next image">Next →</button>
+        </div>
+        <div style="margin-top:8px;opacity:.8">Tip: use your keyboard ◀ ▶ to switch images.</div>
+      </div>
+    </div>
+  </section>
 
-    <footer aria-label="social links">
-      <nav class="socials">
-        <a href="https://discord.com/users/1011756509501333532" target="_blank" rel="noopener">Discord</a>
-        <a href="https://github.com/Intallact" target="_blank" rel="noopener">GitHub</a>
-        <span class="heart" aria-hidden="true">♥</span>
-        <a href="https://www.youtube.com/@intallactw" target="_blank" rel="noopener">YouTube</a>
-        <a href="#" target="_blank" rel="noopener">???</a>
-      </nav>
-    </footer>
-  </div>
+  <footer>Made with 💜 Riley's 16th</footer>
+
+  <audio id="confettiSound"></audio>
+
+  <script>
+    // -------------------- Confetti + sound on load --------------------
+    const confettiCanvas = document.getElementById('confetti');
+    const cx = confettiCanvas.getContext('2d');
+    let confettiPieces = [];
+
+    function makeConfettiSound(){
+      const audioEl = document.getElementById('confettiSound');
+      // Procedural chime using WebAudio to avoid external files
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = ctx.currentTime;
+      const comp = ctx.createDynamicsCompressor(); comp.connect(ctx.destination);
+      [0, 0.05, 0.12].forEach((t,i)=>{
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = i===2 ? 'triangle' : 'sine';
+        o.frequency.value = 660 * (i? 1.25*i : 1);
+        g.gain.setValueAtTime(0.0001, now+t);
+        g.gain.exponentialRampToValueAtTime(0.7/(i+1), now+t+0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, now+t+0.5);
+        o.connect(g); g.connect(comp); o.start(now+t); o.stop(now+t+0.55);
+      });
+    }
+
+    function resizeCanvas(){
+      confettiCanvas.width = innerWidth * devicePixelRatio;
+      confettiCanvas.height = innerHeight * devicePixelRatio;
+      cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    }
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function launchConfetti(){
+      const colors = ['#f0abfc','#d8b4fe','#c4b5fd','#a78bfa','#f5d0fe'];
+      const corners = [
+        {x:0, y:0, vx:2, vy:3},
+        {x:innerWidth, y:0, vx:-2, vy:3},
+        {x:0, y:innerHeight, vx:2, vy:-3},
+        {x:innerWidth, y:innerHeight, vx:-2, vy:-3}
+      ];
+      const N = 180;
+      confettiPieces = Array.from({length:N}, (_,i)=>{
+        const c = corners[i%corners.length];
+        return {
+          x:c.x, y:c.y,
+          vx:c.vx*(1+Math.random()*2), vy:c.vy*(1+Math.random()*2),
+          g: 0.05 + Math.random()*0.06,
+          w: 6 + Math.random()*6,
+          h: 10 + Math.random()*12,
+          r: Math.random()*Math.PI,
+          rc: (Math.random()<.5?-1:1) * (0.05 + Math.random()*0.1),
+          color: colors[Math.floor(Math.random()*colors.length)],
+          life: 120 + Math.random()*60
+        }
+      });
+      makeConfettiSound();
+      animateConfetti();
+      setTimeout(()=>{ // fade out after a while
+        confettiPieces = []
+      }, 4000);
+    }
+
+    function animateConfetti(){
+      if(!confettiPieces.length) return; // stop when empty
+      cx.clearRect(0,0,innerWidth, innerHeight);
+      confettiPieces.forEach(p=>{
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.r += p.rc; p.life -= 1;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r);
+        cx.fillStyle = p.color; cx.globalAlpha = Math.max(0, Math.min(1, p.life/180));
+        cx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        cx.restore();
+      });
+      confettiPieces = confettiPieces.filter(p=> p.life>0 && p.y < innerHeight+50 && p.x>-50 && p.x<innerWidth+50);
+      requestAnimationFrame(animateConfetti);
+    }
+
+    // Trigger on first paint
+    window.addEventListener('load', launchConfetti, {once:true});
+
+    // -------------------- Text reveal + purple particles --------------------
+    const heroCard = document.getElementById('heroCard');
+    const tp = document.getElementById('textParticles');
+    const tctx = tp.getContext('2d');
+
+    function resizeTP(){
+      const rect = heroCard.getBoundingClientRect();
+      tp.width = rect.width * devicePixelRatio; tp.height = rect.height * devicePixelRatio;
+      tctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    }
+    resizeTP();
+    addEventListener('resize', resizeTP);
+
+    function reveal(){ heroCard.classList.add('visible'); burstParticles(); }
+    // delay a touch for elegance
+    setTimeout(reveal, 400);
+
+    let dots = [];
+    function burstParticles(){
+      const rect = heroCard.getBoundingClientRect();
+      const origin = {x: rect.width/2, y: 40};
+      const colors = ['#c084fc','#a78bfa','#ddd6fe','#f5d0fe'];
+      dots = Array.from({length:120}, ()=>({
+        x: origin.x, y: origin.y,
+        vx: (Math.random()-0.5)*3.5,
+        vy: -Math.random()*2.5 - 1,
+        life: 100+Math.random()*40,
+        r: 1+Math.random()*2.2,
+        color: colors[Math.floor(Math.random()*colors.length)]
+      }));
+      animateTP();
+    }
+
+    function animateTP(){
+      if(!dots.length) return;
+      tctx.clearRect(0,0,tp.width, tp.height);
+      dots.forEach(d=>{
+        d.x += d.vx; d.y += d.vy; d.vy += 0.02; d.life -= 1;
+        tctx.globalAlpha = Math.max(0, d.life/120);
+        tctx.fillStyle = d.color; tctx.beginPath(); tctx.arc(d.x, d.y, d.r, 0, Math.PI*2); tctx.fill();
+      });
+      dots = dots.filter(d=> d.life>0);
+      requestAnimationFrame(animateTP);
+    }
+
+    // -------------------- Gallery with arrow keys --------------------
+    const images = [
+      '2025-09-21_21.02.52.png',
+      '2025-09-21_20.53.39.png',
+      '2025-09-20_11.00.47.png',
+      '2025-09-06_22.37.56.png',
+      '2025-08-04_16.15.12.png',
+      '2025-08-03_22.04.07.png'
+    ];
+    let idx = 0;
+    const slide = document.getElementById('slide');
+    const cap = document.getElementById('cap');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateSlide(){
+      slide.style.opacity = 0;
+      setTimeout(()=>{
+        slide.src = images[idx];
+        slide.alt = `Memory ${idx+1}`;
+        cap.textContent = `${idx+1} / ${images.length}`;
+        slide.onload = ()=>{ slide.style.opacity = 1 };
+      }, 120);
+    }
+
+    function next(){ idx = (idx+1) % images.length; updateSlide(); }
+    function prev(){ idx = (idx-1+images.length) % images.length; updateSlide(); }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight') next();
+      else if(e.key === 'ArrowLeft') prev();
+    });
+
+    // Smooth scroll to gallery when hint clicked
+    document.querySelector('.scroll-hint').addEventListener('click', ()=>{
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    })
+  </script>
 </body>
 </html>
