@@ -2,292 +2,251 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy 16th, Riley! 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intallact — Personal Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --purple-1:#6f3ccf; /* base */
-      --purple-2:#a36df5; /* accent */
-      --purple-3:#3a0b6b; /* deep */
-      --text:#f7ecff;
-      --muted:#cdb7ff44;
+      --bg:#0a1020;
+      --card:#131a2b;
+      --text:#dbe6ff;
+      --muted:#a9b3ca;
+      --accent:#8fd0ff;
+      --line:rgba(255,255,255,.08);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --blur:10px;
+      --speed:180ms;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
+
+    *{box-sizing:border-box;margin:0;padding:0}
     body{
-      color:var(--text);
-      overflow-x:hidden;
-      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      /* Two-layer clean purple gradients */
-      background:
-        radial-gradient(1200px 800px at 10% 0%, #b489ff33 0%, transparent 60%),
-        radial-gradient(1200px 900px at 100% 100%, #8b5cf64d 0%, transparent 62%),
-        linear-gradient(135deg, var(--purple-3), var(--purple-1) 40%, var(--purple-2));
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.6;
+      overflow:hidden;
     }
 
-    /* Floating Latios/Latias */
-    .floaters{position:fixed; inset:0; pointer-events:none; z-index:5}
-    .floater{position:absolute; opacity:.9; filter: drop-shadow(0 10px 18px #0006);}
-    .floater img{height:120px; width:auto;}
-    @keyframes slowDrift1{
-      0%{transform:translate(-20%, 20%) rotate(0deg)}
-      50%{transform:translate(30vw, -10vh) rotate(4deg)}
-      100%{transform:translate(110vw, -30vh) rotate(0deg)}
-    }
-    @keyframes slowDrift2{
-      0%{transform:translate(120vw, 100vh) rotate(0deg)}
-      50%{transform:translate(50vw, 40vh) rotate(-6deg)}
-      100%{transform:translate(-20vw, -10vh) rotate(0deg)}
-    }
-    .floater.latios{left:-120px; bottom:15vh; animation:slowDrift1 60s linear infinite;}
-    .floater.latias{right:-120px; top:10vh; animation:slowDrift2 70s linear infinite;}
+    ::selection{ background: var(--accent); color:#061028; }
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
 
-    /* Center hero section */
-    header.hero{
-      min-height:100vh; display:grid; place-items:center; position:relative; z-index:10; padding:6rem 1rem 4rem;
+    /* RAIN EFFECT */
+    .rain{
+      position:fixed; inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
     }
+    .drop{
+      position:absolute;
+      bottom:110%;
+      width:1px;
+      height:60px;
+      background:rgba(255,255,255,0.12);
+      animation: fall linear infinite;
+      opacity:.4;
+    }
+    @keyframes fall{ to { transform: translateY(120vh); } }
+
+    /* LAYOUT */
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:min(900px, 90vw);
+      margin:7rem auto 3rem;
+    }
+
     .card{
-      max-width:980px; background: #ffffff0f; border:1px solid #ffffff1f; border-radius:28px; padding:28px 28px 24px;
-      backdrop-filter: blur(6px); box-shadow: 0 20px 60px #0005;
+      background:rgba(19,26,43,0.85);
+      border:1px solid var(--line);
+      backdrop-filter:blur(var(--blur));
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-    .title{ font-family: "Segoe Script","Bradley Hand", "Comic Neue", "Pacifico", cursive; font-size:clamp(1.8rem, 3vw + 1rem, 3rem); line-height:1.2; margin:0; letter-spacing:.5px;}
 
-    .message{ margin-top:16px; font-size:clamp(1rem, .9rem + .6vw, 1.15rem); line-height:1.6; white-space:pre-wrap}
+    .card__nav{
+      display:flex;
+      align-items:center;
+      gap:1.2rem;
+      padding:1rem 1.25rem;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{color:var(--muted);font-weight:600;margin-right:.5rem;}
+    .tabs{display:flex;gap:1.1rem;}
+    .tab{
+      cursor:pointer;
+      color:var(--muted);
+      background:transparent;
+      border:none;
+      font-family:'Poppins',sans-serif;
+      font-size:1rem;
+      transition:color var(--speed), transform var(--speed);
+    }
+    .tab:hover{color:var(--text);}
+    .tab.active{color:var(--accent);transform:translateY(-1px);}
 
-    /* Text appear animation + purple particles */
-    .reveal{opacity:0; transform:translateY(6px);}
-    .reveal.visible{opacity:1; transform:none; transition:opacity .8s ease, transform .8s ease;}
-    .particles{position:absolute; inset:0; pointer-events:none; mix-blend-mode: screen;}
-    canvas#textParticles{position:absolute; inset:0;}
+    .card__body{padding:1.5rem;}
 
-    /* CTA hint */
-    .scroll-hint{display:flex; gap:.6rem; align-items:center; justify-content:center; margin-top:18px; opacity:.8; font-size:.95rem}
-    .scroll-hint .arrow{display:inline-block; border:solid var(--text); border-width:0 2px 2px 0; padding:5px; transform:rotate(45deg); margin-bottom:-2px}
+    .section{display:none;opacity:0;transform:translateY(4px);transition:opacity 280ms,transform 280ms;}
+    .section.show{display:block;opacity:1;transform:translateY(0);}
 
-    /* Gallery */
-    section.gallery{min-height:100vh; padding:72px 16px 100px; position:relative}
-    .g-wrap{max-width:1080px; margin:0 auto}
-    .g-card{background:#ffffff0f; border:1px solid #ffffff1f; border-radius:22px; padding:16px 16px 28px; box-shadow:0 16px 40px #0005;}
-    .frame{position:relative; aspect-ratio:16/9; background:linear-gradient(180deg,#00000055,#00000022); border-radius:16px; overflow:hidden}
-    .frame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
-    .g-controls{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px}
-    .btn{user-select:none; cursor:pointer; border:none; border-radius:999px; padding:12px 16px; font-weight:600; color:#25103b; background:linear-gradient(180deg,#e9d5ff,#d8b4fe); box-shadow:0 10px 18px #0004}
-    .btn:active{transform:translateY(1px)}
-    .caption{opacity:.9}
+    /* HOME */
+    .grid{display:grid;grid-template-columns:100px 1fr;gap:1rem;align-items:start;}
 
-    /* Confetti canvas on top */
-    #confetti{position:fixed; inset:0; pointer-events:none; z-index:999}
+    /* UPDATED PROFILE PICTURE FRAME */
+    .avatar{
+      width: 96px;
+      height: 96px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg,#0e1528 0%, #0b1224 100%);
+      box-shadow: inset 0 0 18px rgba(0,0,0,.4);
+      overflow: hidden;
+      position: relative;
+    }
+    .avatar img{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-    /* Credits (tiny, subtle) */
-    footer{opacity:.65; font-size:.85rem; text-align:center; padding:24px 12px}
+    h1{font-size:1.2rem;color:var(--accent);margin-bottom:.3rem;}
+    .sub{color:var(--muted);}
+    .inline-links{display:flex;gap:1rem;margin-top:.6rem;}
+    .blurb{margin-top:.9rem;max-width:65ch;color:#dde3f5;}
+
+    hr{border:0;border-top:1px solid var(--line);margin:1.2rem 0;}
+
+    /* BLOG TABLE */
+    .blog-list{width:100%;border-collapse:collapse;}
+    .blog-list th,.blog-list td{padding:.8rem .6rem;border-bottom:1px solid var(--line);}
+    .blog-list th{color:var(--muted);font-weight:500;text-align:left;}
+    .blog-list td:last-child{text-align:right;color:var(--muted);}
+
+    /* BLOG POST */
+    .blog-post{max-width:65ch;margin:auto;}
+    .back{display:inline-block;margin-bottom:1rem;color:var(--accent);cursor:pointer;}
   </style>
 </head>
 <body>
-  <canvas id="confetti"></canvas>
+  <div class="rain"></div>
 
-  <!-- Floating duo -->
-  <div class="floaters" aria-hidden="true">
-    <div class="floater latios"><img src="381.png" alt="Latios"></div>
-    <div class="floater latias"><img src="latias.png" alt="Latias"></div>
-  </div>
+  <main class="wrap">
+    <section class="card">
+      <header class="card__nav">
+        <div class="brand">intallact.cat</div>
+        <nav class="tabs">
+          <button class="tab active" data-tab="home">home</button>
+          <button class="tab" data-tab="blog">blog</button>
+          <button class="tab" data-tab="experience">experience</button>
+          <button class="tab" data-tab="links">contact / links</button>
+        </nav>
+      </header>
 
-  <header class="hero">
-    <div class="card reveal" id="heroCard" style="position:relative">
-      <canvas id="textParticles"></canvas>
-      <h1 class="title">HAII RILEY!!! HAPPY BIRTHDAYYYY!! 🎉🥳 FINALLY 16!</h1>
-      <p class="message" id="msg">
-I swear that feels so old (or atleast it did for me :C). Last year i couldn't even tell you happy birthday because we had gotten into an argument a bit before your birthday. Unfortunately something simmilair has happened this year but i couldn't get myself to possibly miss it again. I wanted to wish you an amazing day and i hope you really enjoy this day and spend time with your loved ones, I couldn't quite find a fitting birthday present for you so i hope you can accept the 3c as an early present for now, I'll make it up to you eventually somehow, i promise. Its okay if you dont have time right now but when you do, take a look at the collection of images at the bottom of the website, its a bunch of memories we made while you were 15. Stay strong and go spend some time with your family, you are a truly wonderful person.- Lenn <3.
-      </p>
-      <div class="scroll-hint">
-        <span>Scroll for memories</span>
-        <i class="arrow"></i>
+      <div class="card__body">
+        <!-- HOME -->
+        <section id="home" class="section show">
+          <div class="grid">
+            <!-- Updated avatar block -->
+            <div class="avatar" aria-label="profile picture">
+              <img src="./me.png" alt="Profile picture" loading="eager" decoding="async">
+            </div>
+
+            <div>
+              <h1>hi! i’m Intallact</h1>
+              <div class="sub">he/him · 16 years old</div>
+              <div class="inline-links">
+                <a href="https://github.com/Intallact" target="_blank">github</a>
+                <a href="https://discord.id/?prefill=1011756509501333532" target="_blank">discord</a>
+                                <a href="https://en.pronouns.page/@intallact" target="_blank">pronouns</a>
+              </div>
+              <p class="blurb">i’m a java developer with 3+ years of experience, i love rap and calm music, i made this site for people who want to get to know me or get more information.</p>
+            </div>
+          </div>
+          <hr>
+          <p class="sub">for more about my previous experiences, visit the <a href="#" onclick="selectTab('experience');return false;">experience</a> page.</p>
+        </section>
+
+        <!-- BLOG -->
+        <section id="blog" class="section">
+          <table class="blog-list">
+            <thead>
+              <tr><th>title</th><th></th><th>date</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" onclick="openBlog('blog-post-1')">about me</a></td>
+                <td class="sub">some information about me</td>
+                <td>22/10/2025</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- BLOG POST DETAIL -->
+        <section id="blog-post-1" class="section">
+          <div class="blog-post">
+            <a class="back" onclick="selectTab('blog')">← back to blog</a>
+            <h2>information about me!</h2>
+            <p>my name is Intallact! Theres alot to know about me so i thought i might aswell explain it on my website! I'm a 16 year old java developer with 3+ years of experience, my favourite pokemon is shaymin! my favourite colour is blue, and at 2nd is orange. I'm bisexual and also HT3 VTL & Lurrns Tierlist, Also LT2 Diamond Crystal Pvp on subtiers.com, I only have one pet, a dog. Her name is Jenny and shes a pug. I enjoy playing every minecraft pvp mode except mace and axe (because i suck lol) as of writing this i have currently taken a break from minecraft pvp and will play less to focus on school, studies, mental health, and my future. I have spent way too much time on minecraft which has lead to me distancing myself from people who are really important to me, If you are looking to hire me as a developer for your server please check otu the experiences tab which will show you some previous server i've been staff on.</p>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="section">
+          <p>Ex Co-Owner @ ImpendMC</p>
+         <p>Ex Admin + Media Manager @ BroKits</p>
+                   <p>Ex Media @ LeoneMC</p>
+                             <p>Ex Developer @ CherryPrac</p>
+                                       <p>Ex Owner @ Yuzai, CaveKits, Potting</p>
+                                                 <p>Currently i am resigned everywhere due to not having enough time, interest lack of motiviation, if you need specific things done and i am not busy shoot me a dm on discord @intallact</p>
+        </section>
+
+        <!-- CONTACT / LINKS -->
+        <section id="links" class="section">
+          <p>discord: @intallact<br>github: <a href="https://github.com/Intallact" target="_blank">github.com/Intallact</a><br>website: intallact.cat</p>pronouns page:  <a href="https://en.pronouns.page/@intallact"  target="_blank">pronouns.page/@intallact
+        </section>
       </div>
-    </div>
-  </header>
-
-  <section class="gallery" id="gallery">
-    <div class="g-wrap">
-      <div class="g-card">
-        <div class="frame">
-          <img id="slide" src="2025-09-21_21.02.52.png" alt="Memory 1">
-        </div>
-        <div class="g-controls">
-          <button class="btn" id="prevBtn" aria-label="Previous image">← Prev</button>
-          <div class="caption" id="cap">1 / 6</div>
-          <button class="btn" id="nextBtn" aria-label="Next image">Next →</button>
-        </div>
-        <div style="margin-top:8px;opacity:.8">Tip: use your keyboard ◀ ▶ to switch images.</div>
-      </div>
-    </div>
-  </section>
-
-  <footer>Made with 💜 Riley's 16th</footer>
-
-  <audio id="confettiSound"></audio>
+    </section>
+  </main>
 
   <script>
-    // -------------------- Confetti + sound on load --------------------
-    const confettiCanvas = document.getElementById('confetti');
-    const cx = confettiCanvas.getContext('2d');
-    let confettiPieces = [];
-
-    function makeConfettiSound(){
-      const audioEl = document.getElementById('confettiSound');
-      // Procedural chime using WebAudio to avoid external files
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const now = ctx.currentTime;
-      const comp = ctx.createDynamicsCompressor(); comp.connect(ctx.destination);
-      [0, 0.05, 0.12].forEach((t,i)=>{
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = i===2 ? 'triangle' : 'sine';
-        o.frequency.value = 660 * (i? 1.25*i : 1);
-        g.gain.setValueAtTime(0.0001, now+t);
-        g.gain.exponentialRampToValueAtTime(0.7/(i+1), now+t+0.01);
-        g.gain.exponentialRampToValueAtTime(0.0001, now+t+0.5);
-        o.connect(g); g.connect(comp); o.start(now+t); o.stop(now+t+0.55);
+    // Tabs switching
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
+    function selectTab(id){
+      tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===id));
+      sections.forEach(s=>{
+        if(s.id===id){s.classList.add('show');}
+        else{s.classList.remove('show');}
       });
     }
+    tabs.forEach(t=>t.addEventListener('click',()=>selectTab(t.dataset.tab)));
 
-    function resizeCanvas(){
-      confettiCanvas.width = innerWidth * devicePixelRatio;
-      confettiCanvas.height = innerHeight * devicePixelRatio;
-      cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-    addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function launchConfetti(){
-      const colors = ['#f0abfc','#d8b4fe','#c4b5fd','#a78bfa','#f5d0fe'];
-      const corners = [
-        {x:0, y:0, vx:2, vy:3},
-        {x:innerWidth, y:0, vx:-2, vy:3},
-        {x:0, y:innerHeight, vx:2, vy:-3},
-        {x:innerWidth, y:innerHeight, vx:-2, vy:-3}
-      ];
-      const N = 180;
-      confettiPieces = Array.from({length:N}, (_,i)=>{
-        const c = corners[i%corners.length];
-        return {
-          x:c.x, y:c.y,
-          vx:c.vx*(1+Math.random()*2), vy:c.vy*(1+Math.random()*2),
-          g: 0.05 + Math.random()*0.06,
-          w: 6 + Math.random()*6,
-          h: 10 + Math.random()*12,
-          r: Math.random()*Math.PI,
-          rc: (Math.random()<.5?-1:1) * (0.05 + Math.random()*0.1),
-          color: colors[Math.floor(Math.random()*colors.length)],
-          life: 120 + Math.random()*60
-        }
-      });
-      makeConfettiSound();
-      animateConfetti();
-      setTimeout(()=>{ // fade out after a while
-        confettiPieces = []
-      }, 4000);
+    // Open specific blog
+    function openBlog(id){
+      sections.forEach(s=>s.classList.remove('show'));
+      document.getElementById(id).classList.add('show');
     }
 
-    function animateConfetti(){
-      if(!confettiPieces.length) return; // stop when empty
-      cx.clearRect(0,0,innerWidth, innerHeight);
-      confettiPieces.forEach(p=>{
-        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.r += p.rc; p.life -= 1;
-        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r);
-        cx.fillStyle = p.color; cx.globalAlpha = Math.max(0, Math.min(1, p.life/180));
-        cx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-        cx.restore();
-      });
-      confettiPieces = confettiPieces.filter(p=> p.life>0 && p.y < innerHeight+50 && p.x>-50 && p.x<innerWidth+50);
-      requestAnimationFrame(animateConfetti);
+    // Rain
+    const rain=document.querySelector('.rain');
+    const drops=70;
+    for(let i=0;i<drops;i++){
+      const d=document.createElement('div');
+      d.className='drop';
+      d.style.left=Math.random()*100+'vw';
+      d.style.animationDuration=2+Math.random()*4+'s';
+      d.style.animationDelay=Math.random()*5+'s';
+      d.style.height=40+Math.random()*80+'px';
+      rain.appendChild(d);
     }
-
-    // Trigger on first paint
-    window.addEventListener('load', launchConfetti, {once:true});
-
-    // -------------------- Text reveal + purple particles --------------------
-    const heroCard = document.getElementById('heroCard');
-    const tp = document.getElementById('textParticles');
-    const tctx = tp.getContext('2d');
-
-    function resizeTP(){
-      const rect = heroCard.getBoundingClientRect();
-      tp.width = rect.width * devicePixelRatio; tp.height = rect.height * devicePixelRatio;
-      tctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-    resizeTP();
-    addEventListener('resize', resizeTP);
-
-    function reveal(){ heroCard.classList.add('visible'); burstParticles(); }
-    // delay a touch for elegance
-    setTimeout(reveal, 400);
-
-    let dots = [];
-    function burstParticles(){
-      const rect = heroCard.getBoundingClientRect();
-      const origin = {x: rect.width/2, y: 40};
-      const colors = ['#c084fc','#a78bfa','#ddd6fe','#f5d0fe'];
-      dots = Array.from({length:120}, ()=>({
-        x: origin.x, y: origin.y,
-        vx: (Math.random()-0.5)*3.5,
-        vy: -Math.random()*2.5 - 1,
-        life: 100+Math.random()*40,
-        r: 1+Math.random()*2.2,
-        color: colors[Math.floor(Math.random()*colors.length)]
-      }));
-      animateTP();
-    }
-
-    function animateTP(){
-      if(!dots.length) return;
-      tctx.clearRect(0,0,tp.width, tp.height);
-      dots.forEach(d=>{
-        d.x += d.vx; d.y += d.vy; d.vy += 0.02; d.life -= 1;
-        tctx.globalAlpha = Math.max(0, d.life/120);
-        tctx.fillStyle = d.color; tctx.beginPath(); tctx.arc(d.x, d.y, d.r, 0, Math.PI*2); tctx.fill();
-      });
-      dots = dots.filter(d=> d.life>0);
-      requestAnimationFrame(animateTP);
-    }
-
-    // -------------------- Gallery with arrow keys --------------------
-    const images = [
-      '2025-09-21_21.02.52.png',
-      '2025-09-21_20.53.39.png',
-      '2025-09-20_11.00.47.png',
-      '2025-09-06_22.37.56.png',
-      '2025-08-04_16.15.12.png',
-      '2025-08-03_22.04.07.png'
-    ];
-    let idx = 0;
-    const slide = document.getElementById('slide');
-    const cap = document.getElementById('cap');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    function updateSlide(){
-      slide.style.opacity = 0;
-      setTimeout(()=>{
-        slide.src = images[idx];
-        slide.alt = `Memory ${idx+1}`;
-        cap.textContent = `${idx+1} / ${images.length}`;
-        slide.onload = ()=>{ slide.style.opacity = 1 };
-      }, 120);
-    }
-
-    function next(){ idx = (idx+1) % images.length; updateSlide(); }
-    function prev(){ idx = (idx-1+images.length) % images.length; updateSlide(); }
-
-    nextBtn.addEventListener('click', next);
-    prevBtn.addEventListener('click', prev);
-    addEventListener('keydown', (e)=>{
-      if(e.key === 'ArrowRight') next();
-      else if(e.key === 'ArrowLeft') prev();
-    });
-
-    // Smooth scroll to gallery when hint clicked
-    document.querySelector('.scroll-hint').addEventListener('click', ()=>{
-      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
-    })
   </script>
 </body>
 </html>
