@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>intallact's profile</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    :root {
+      --accent: #6ecbff;
+      --accent-strong: rgba(110, 203, 255, 0.9);
+      --accent-soft: rgba(110, 203, 255, 0.35);
+      --glass: rgba(20, 20, 20, 0.8);
+      --glass2: rgba(0, 0, 0, 0.5);
+      --dropdown: rgba(30, 30, 30, 0.95);
+      --text: #ffffff;
+      --bg: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas#background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg);
+    }
+
+    .main-container {
+      background: var(--glass);
+      border: 2px solid var(--accent);
+      border-radius: 25px;
+      box-shadow: 0 0 40px var(--accent-soft);
+      padding: 40px;
+      width: 520px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1.5s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      background: var(--glass2);
+      border-radius: 15px;
+      padding: 10px 20px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--accent-soft);
+      position: relative;
+      z-index: 10;
+    }
+
+    nav h1 {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 20px;
+      text-transform: lowercase;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      z-index: 10;
+    }
+
+    nav ul li { position: relative; }
+
+    nav ul li a {
+      color: var(--text);
+      text-decoration: none;
+      transition: 0.3s;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-block;
+      padding: 5px;
+      z-index: 10;
+      position: relative;
+    }
+
+    nav ul li a:hover { color: var(--accent); }
+
+    .dropdown { position: relative; }
+
+    .dropdown-content {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      background: var(--dropdown);
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 9999;
+      max-height: 400px;
+      overflow-y: auto;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      pointer-events: none;
+    }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown-content:hover {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .dropdown-content a img {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .profile img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+      box-shadow: 0 0 25px var(--accent);
+    }
+
+    .profile h2 {
+      margin-top: 12px;
+      font-size: 26px;
+      text-transform: lowercase;
+    }
+
+    .song-box {
+      margin-top: 25px;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid var(--accent);
+      border-radius: 15px;
+      padding: 15px 20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 20px var(--accent-soft);
+      transition: 0.3s;
+      animation: fadeIn 3s ease;
+    }
+
+    .song-box:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px var(--accent-strong);
+    }
+
+    .song-box.playing { animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px var(--accent-soft); }
+      50% { box-shadow: 0 0 40px var(--accent-strong); }
+    }
+
+    .song-box img {
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 15px;
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .song-box img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    .song-info { text-align: left; }
+    .song-info b { color: var(--accent); }
+    .song-info p { margin: 3px 0; font-size: 15px; }
+
+    .content { transition: opacity 0.4s ease; }
+
+    footer {
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.6;
+      text-transform: lowercase;
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+
+  <div class="main-container">
+    <nav>
+      <h1>intallact.cat</h1>
+      <ul>
+        <li><a id="homeBtn">home</a></li>
+        <li class="dropdown">
+          <a>minecraft ▼</a>
+          <div class="dropdown-content" id="mcList"></div>
+        </li>
+        <li><a id="socialsBtn">socials</a></li>
+      </ul>
+    </nav>
+
+    <div id="content" class="content">
+      <div class="profile">
+        <img src="pfp.png" alt="Profile Picture" />
+        <h2>intallact</h2>
+        <div id="songContainer">
+          <div class="song-box" id="songBox">
+            <a href="#" target="_blank" rel="noreferrer noopener">
+              <img id="cover" src="soundcloud.png" alt="Album Cover" />
+            </a>
+            <div class="song-info" id="currentSong">
+              <p>reload the page if this doesn't work</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>© 2025 intallact</footer>
+  </div>
+
+  <script>
+    const accounts = [
+      { name: "Intallact", namemc: true },
+      { name: "Resyncing", namemc: true },
+      { name: "qRapid", namemc: true },
+      { name: "Rzpid", namemc: true },
+      { name: "Intraval", namemc: true },
+      { name: "Lyfestyled", namemc: true },
+      { name: "ruintage", namemc: true },
+      { name: "Rebinded", namemc: true },
+      { name: "Styleable", namemc: true },
+      { name: "Impulsor", namemc: true },
+      { name: "Nuveth", namemc: true },
+      { name: "nxcr", namemc: true },
+      { name: "XT83", namemc: true },
+      { name: "blyssies", namemc: true },
+      { name: "CopeTotem", namemc: true },
+      { name: "Kroniela", namemc: true },
+      { name: "flametextaperfad", namemc: true },
+      { name: "StarRising", namemc: true },
+      { name: "Afterlyfed", namemc: true },
+      { name: "hellenwong2", namemc: true },
+      { name: "catboyrapid", namemc: true },
+    ];
+
+    const mcList = document.getElementById("mcList");
+    accounts.forEach(acc => {
+      if (acc.namemc) {
+        const a = document.createElement("a");
+        a.href = `https://namemc.com/${acc.name}`;
+        a.target = "_blank";
+        a.rel = "noreferrer noopener";
+        a.innerHTML = `<img src='https://minotar.net/avatar/${acc.name}' alt='${acc.name}'> ${acc.name}`;
+        mcList.appendChild(a);
+      }
+    });
+
+    const lastfmUser = "intallact";
+    const apiKey = "af797f62bb1ace280d470c5cb112e6b7";
+    const currentSongElement = document.getElementById("currentSong");
+    const songBox = document.getElementById("songBox");
+
+    async function getCurrentSong() {
+      try {
+        const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${lastfmUser}&api_key=${apiKey}&format=json`);
+        const data = await response.json();
+        const track = data?.recenttracks?.track?.[0];
+        if (!track) throw new Error("No tracks");
+
+        const nowPlaying = track["@attr"]?.nowplaying === "true";
+        const artist = track.artist?.["#text"] ?? "unknown artist";
+        const name = track.name ?? "unknown track";
+        const image = (track.image?.find(i => i.size === "extralarge")?.["#text"]) || (track.image?.slice(-1)?.[0]?.["#text"]) || "soundcloud.png";
+
+        document.getElementById("cover").src = image || "soundcloud.png";
+
+        if (nowPlaying) {
+          songBox.classList.add("playing");
+          currentSongElement.innerHTML = `<p>🎵 <b>Now Playing</b></p><p>${name}</p><p>by <b>${artist}</b></p>`;
+        } else {
+          songBox.classList.remove("playing");
+          currentSongElement.innerHTML = `<p>Last listened to:</p><p>${name}</p><p>by <b>${artist}</b></p>`;
+        }
+      } catch (error) {
+        currentSongElement.innerHTML = "<p>Error fetching song info.</p>";
+      }
+    }
+
+    getCurrentSong();
+    setInterval(getCurrentSong, 10000);
+
+    const homeBtn = document.getElementById("homeBtn");
+    const socialsBtn = document.getElementById("socialsBtn");
+    const contentDiv = document.getElementById("content");
+
+    const profileHTML = contentDiv.innerHTML;
+    const socialsHTML = `
+      <div style='animation: fadeIn 1s ease;'>
+        <h2 style='color: var(--accent); margin-bottom:10px;'>socials</h2>
+        <p>Discord: <a href='https://discord.com/users/1011756509501333532' target='_blank' style='color: var(--accent);'>@intallact</a></p>
+        <p>GitHub: <a href='https://github.com/intallact' target='_blank' style='color: var(--accent);'>intallact</a></p>
+        <p>SoundCloud: <a href='https://soundcloud.com/intallact' target='_blank' style='color: var(--accent);'>intallact</a></p>
+        <p>Pronouns Page: <a href='https://en.pronouns.page/@intallact' target='_blank' style='color: var(--accent);'>@intallact</a></p>
+      </div>
+    `;
+
+    homeBtn.addEventListener("click", () => {
+      contentDiv.style.opacity = 0;
+      setTimeout(() => {
+        contentDiv.innerHTML = profileHTML;
+        contentDiv.style.opacity = 1;
+      }, 300);
+    });
+
+    socialsBtn.addEventListener("click", () => {
+      contentDiv.style.opacity = 0;
+      setTimeout(() => {
+        contentDiv.innerHTML = socialsHTML;
+        contentDiv.style.opacity = 1;
+      }, 300);
+    });
+
+        // --- Animated Particle Background ---
+        const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let w, h;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      particles = [];
+      for (let i = 0; i < 120; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2,
+          dx: (Math.random() - 0.5) * 0.5,
+          dy: (Math.random() - 0.5) * 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "white";
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    draw();
+  </script>
+</body>
+</html>
+
+
