@@ -1,334 +1,676 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta property="og:title" content="Intallact.cat">
-  <meta property="og:description" content="meow meow meow meow meow?">
-  <meta property="og:image" content="">
-  <meta property="og:url" content="https://Intallact.cat">
-  <meta property="og:type" content="website">
-  <meta name="theme-color" content="#702AB7">
-  <title>Intallact</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>whyucry</title>
 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Your website icon (2nd image) -->
+  <link rel="icon" type="image/jpeg" href="10d5278865d66a62e9f86c7bc711fb08.jpg" />
 
   <style>
     :root{
-      --bg1:#6a85ad;
-      --bg2:#204172;
-      --accent:#4992ff;
-      --glass: rgba(255,255,255,0.03);
-      --card-bg: rgba(10,6,12,0.6);
-      --text: #eae8ff;
-      --muted: #bfb7d9;
+      --glass: rgba(18, 22, 35, 0.45);
+      --glass2: rgba(255, 255, 255, 0.08);
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --shadow: 0 25px 70px rgba(0,0,0,0.55);
+      --radius: 26px;
     }
 
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
     body{
-      background: radial-gradient(1200px 600px at 10% 20%, rgba(112,42,183,0.14), transparent 10%),
-                  radial-gradient(900px 500px at 85% 80%, rgba(46,6,60,0.12), transparent 10%),
-                  linear-gradient(180deg,var(--bg1),var(--bg2));
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--text);
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      overflow: hidden;
+      background: #05070e;
     }
 
-    .bg-anim{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      background: linear-gradient(60deg, rgba(112,42,183,0.06), rgba(0,0,0,0) 20%, rgba(112,42,183,0.04));
-      pointer-events:none;
-      animation: floatBG 18s linear infinite;
-      mix-blend-mode: screen;
-    }
-    @keyframes floatBG {
-      0%{ transform: translateY(0) rotate(0deg); }
-      50%{ transform: translateY(-30px) rotate(3deg); }
-      100%{ transform: translateY(0) rotate(0deg); }
-    }
-
-    .card-wrap {
-      position:relative;
-      z-index:1;
-      width:380px;
-      max-width:92vw;
-      border-radius:36px;
-      padding:28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
-      box-shadow: 0 10px 40px rgba(2,0,10,0.65), inset 0 1px 0 rgba(255,255,255,0.02);
-      border: 1px solid rgba(112,42,183,0.18);
-      backdrop-filter: blur(6px) saturate(120%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
-      transform: scale(0.9);
-      opacity: 0;
-      transition: transform 0.6s ease, box-shadow 0.6s ease, opacity 0.8s ease;
-    }
-    .card-wrap.show {
-      transform: scale(1);
-      opacity: 1;
-    }
-    .card-wrap:hover {
-      transform: scale(1.03);
-      box-shadow: 0 18px 60px rgba(112,42,183,0.28);
-    }
-
-    .avatar-wrap{
-      width:136px;
-      height:136px;
-      border-radius:50%;
-      padding:6px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.0));
-      border: 2px solid rgba(255,255,255,0.06);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-top:-80px;
-      box-shadow: 0 12px 30px rgba(8,0,20,0.6);
-      transition: transform 1.2s ease, box-shadow 0.6s ease;
-    }
-    .avatar{
-      width:116px;
-      height:116px;
-      border-radius:50%;
-      object-fit:cover;
-      display:block;
-      border:4px solid var(--card-bg);
-      background: linear-gradient(180deg, rgba(112,42,183,0.08), rgba(0,0,0,0.45));
-      transition: transform 1.2s ease;
-    }
-    .avatar-wrap:hover {
-      transform: scale(1.06) rotate(6deg);
-      box-shadow: 0 16px 40px rgba(112,42,183,0.45);
-    }
-    .avatar-wrap:hover .avatar {
-      transform: rotate(-6deg) scale(1.05);
-    }
-
-    .username {
-      margin-top:6px;
-      font-weight:700;
-      font-size:1.6rem;
-      color:#ffffff;
-      text-align:center;
-      text-shadow:
-        0 0 8px rgba(255,255,255,0.95),
-        0 0 20px rgba(255,255,255,0.25),
-        0 0 42px rgba(112,42,183,0.32);
-      letter-spacing:0.4px;
-      transition: text-shadow 0.4s ease;
-    }
-    .username:hover {
-      text-shadow:
-        0 0 12px rgba(255,255,255,1),
-        0 0 24px rgba(255,255,255,0.8),
-        0 0 54px rgba(112,42,183,0.75);
-    }
-
-    .now-playing{
-      width:100%;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      padding:10px 12px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border: 1px solid rgba(255,255,255,0.02);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .now-playing:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 26px rgba(112,42,183,0.3);
-    }
-
-    .album {
-      width:64px;
-      height:64px;
-      border-radius:10px;
-      overflow:hidden;
-      flex:0 0 64px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(112,42,183,0.03));
-      box-shadow: 0 6px 18px rgba(4,0,12,0.45);
-    }
-    .album img { width:100%; height:100%; object-fit:cover; display:block; }
-
-    .track-info { display:flex; flex-direction:column; gap:4px; min-width:0; }
-    .track-title { font-weight:600; font-size:0.98rem; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition: color 0.3s ease; }
-    .track-artist { font-size:0.88rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-
-    .now-playing:hover .track-title { color: var(--accent); }
-
-    .status-bubble{
-      margin-left:auto;
-      font-size:0.78rem;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(112,42,183,0.12);
-      color: #eae6ff;
-      border: 1px solid rgba(112,42,183,0.26);
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-    .now-playing:hover .status-bubble {
-      background: rgba(112,42,183,0.22);
-      transform: scale(1.1);
-    }
-
-    .socials {
-      width:100%;
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      margin-top:10px;
-      padding-bottom:4px;
-    }
-    .socials a{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      text-decoration:none;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,0.03);
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.002));
-      transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-      font-size:1.1rem;
-    }
-    .socials a:hover{
-      transform: translateY(-6px) scale(1.1);
-      box-shadow: 0 18px 40px rgba(112,42,183,0.35);
-      color:var(--accent);
-    }
-
-    .meta {
-      margin-top:6px;
-      font-size:0.78rem;
-      color:var(--muted);
-      text-align:center;
-      opacity:0.95;
-    }
-
-    #loader {
+    /* Background image */
+    .bg{
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: var(--bg1);
+      inset: 0;
+      background-image: url("anime_building_house_colorful_fireworks_hd_anime.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(1.03);
+      filter: saturate(1.08) contrast(1.05);
+      z-index: 0;
+    }
+
+    /* Soft dark overlay for readability */
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(1200px 600px at 50% 25%, rgba(0,0,0,0.20), rgba(0,0,0,0.55)),
+        linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.60));
+      z-index: 1;
+    }
+
+    /* Fireworks canvas */
+    canvas#fw{
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Center layout */
+    .wrap{
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      z-index: 3;
+    }
+
+    /* Main card */
+    .card{
+      width: min(720px, 92vw);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--glass), rgba(18, 22, 35, 0.25));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(12px) scale(0.99);
+      animation: fadeIn 900ms ease forwards;
+    }
+
+    @keyframes fadeIn{
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 220px at 30% 0%, rgba(255,255,255,0.14), transparent 65%);
+      pointer-events:none;
+      opacity: 0.9;
+    }
+
+    .cardInner{
+      position: relative;
+      padding: 26px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .topRow{
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .avatar{
+      width: 84px;
+      height: 84px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+      transform: translateZ(0);
+      transition: transform 180ms ease, filter 180ms ease;
+      background: rgba(255,255,255,0.06);
+    }
+    .avatar img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+    .card:hover .avatar{
+      transform: scale(1.03);
+      filter: brightness(1.06);
+    }
+
+    .title{
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+    .name{
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .tag{
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      width: fit-content;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      width: fit-content;
+    }
+
+    .dot{
+      width: 9px;
+      height: 9px;
+      border-radius: 99px;
+      background: #66ff9d;
+      box-shadow: 0 0 18px rgba(102,255,157,0.65);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity: 0.9; }
+      50%{ transform: scale(1.35); opacity: 0.65; }
+    }
+
+    .songBox{
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+    .card:hover .songBox{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .album{
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+    }
+    .album img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .songText{
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+    .songTitle{
+      font-weight: 750;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .songArtist{
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .miniBtn{
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.15);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      user-select: none;
+    }
+    .miniBtn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .miniBtn:active{ transform: translateY(0px) scale(0.99); }
+
+    .socials{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .socialBtn{
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
-      transition: opacity 0.6s ease;
-    }
-    #loader.hidden {opacity: 0; pointer-events: none;}
-
-    .loader-text {
-      font-size: 1.2rem;
-      color: var(--text);
-      text-shadow: 0 0 10px var(--accent);
-      margin-bottom: 16px;
-    }
-    .loader-bar {
-      width: 220px;
-      height: 6px;
-      background: rgba(112,42,183,0.25);
-      border-radius: 3px;
+      gap: 10px;
+      font-weight: 750;
+      transition: transform 170ms ease, background 170ms ease, border-color 170ms ease;
+      position: relative;
       overflow: hidden;
     }
-    .loader-bar span {
-      display: block;
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg,var(--accent),#fff,var(--accent));
-      animation: loadProgress 1.5s ease-in-out forwards;
-    }
-    @keyframes loadProgress {
-      0% {width: 0%;}
-      100% {width: 100%;}
+
+    .socialBtn::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(300px 90px at 50% 0%, rgba(255,255,255,0.16), transparent 60%);
+      opacity: 0;
+      transition: opacity 170ms ease;
+      pointer-events:none;
     }
 
-    @media (max-width:420px){
-      .avatar-wrap{ width:112px; height:112px; margin-top:-64px; }
-      .avatar{ width:96px; height:96px; }
-      .card-wrap{ padding:18px; border-radius:28px; }
+    .socialBtn:hover{
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .socialBtn:hover::after{ opacity: 1; }
+    .socialBtn:active{ transform: translateY(0px) scale(0.99); }
+
+    .icon{
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+    .icon svg{ width: 18px; height: 18px; display:block; }
+
+    .foot{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .hint{
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    /* Mobile */
+    @media (max-width: 620px){
+      .topRow{ grid-template-columns: 1fr; justify-items: center; text-align: center; }
+      .name{ justify-content: center; }
+      .tag{ margin: 0 auto; }
+      .songBox{ grid-template-columns: 56px 1fr; }
+      .songBox a{ grid-column: 1 / -1; justify-content: center; }
+      .socials{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .foot{ justify-content: center; }
     }
   </style>
 </head>
 <body>
-  <div id="loader">
-    <div class="loader-text">loading</div>
-    <div class="loader-bar"><span></span></div>
-  </div>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <canvas id="fw"></canvas>
 
-  <div class="bg-anim" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="card" id="card">
+      <div class="cardInner">
+        <div class="topRow">
+          <div class="avatar">
+            <!-- Fallback: use your provided image if API fails -->
+            <img id="avatarImg" src="10d5278865d66a62e9f86c7bc711fb08.jpg" alt="avatar" />
+          </div>
 
-  <div class="card-wrap" role="region" aria-label="Profile card" id="profileCard">
-    <div class="avatar-wrap"><img id="avatar" class="avatar" src="" alt="Intallact's Discord avatar"></div>
-    <div class="username" id="displayName">Intallact</div>
+          <div class="title">
+            <div class="name">
+              <span id="displayName">whyucry</span>
+            </div>
+            <div class="tag">@whyucry</div>
+            <div class="pill" id="presencePill">
+              <span class="dot"></span>
+              <span id="presenceText">Loading status…</span>
+            </div>
+          </div>
+        </div>
 
-    <div class="now-playing" id="nowPlaying">
-      <div class="album"><img src="" alt="album art" id="albumImg"></div>
-      <div class="track-info">
-        <div class="track-title" id="trackTitle">Loading track…</div>
-        <div class="track-artist" id="trackArtist">Last.fm</div>
+        <div class="songBox">
+          <div class="album">
+            <img id="albumArt" src="10d5278865d66a62e9f86c7bc711fb08.jpg" alt="album" />
+          </div>
+
+          <div class="songText">
+            <div class="songTitle" id="songTitle">Last played song</div>
+            <div class="songArtist" id="songArtist">Fetching from Discord…</div>
+          </div>
+
+          <a class="miniBtn" id="songLink" href="https://open.spotify.com/" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <!-- Spotify icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5Zm4.8 15.1a.9.9 0 0 1-1.2.3c-2.7-1.6-6.1-1.9-10-.8a.9.9 0 1 1-.5-1.7c4.3-1.2 8.1-.8 11.1 1a.9.9 0 0 1 .6 1.2Zm.9-3a1 1 0 0 1-1.4.4c-3.1-1.9-7.8-2.5-11.4-1.4a1 1 0 1 1-.6-1.9c4.1-1.2 9.2-.6 12.7 1.6a1 1 0 0 1 .7 1.3Zm.1-3.2c-3.7-2.2-9.7-2.4-13.3-1.3a1.1 1.1 0 1 1-.6-2.1c4.2-1.2 11-1 15.4 1.6a1.1 1.1 0 0 1 .4 1.5 1.1 1.1 0 0 1-1.9.3Z"/>
+              </svg>
+            </span>
+            Open
+          </a>
+        </div>
+
+        <div class="socials">
+          <a class="socialBtn" href="https://discord.com/users/506950390839902208" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <!-- Discord icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.3 4.4a19 19 0 0 0-4.7-1.5l-.2.4a18 18 0 0 1 3.6 1.4c-1.5-1-3.2-1.7-5-2.1a.5.5 0 0 0-.5.2l-.7 1a17 17 0 0 0-3.6 0l-.7-1a.5.5 0 0 0-.5-.2c-1.8.4-3.5 1.1-5 2.1a18 18 0 0 1 3.6-1.4l-.2-.4a19 19 0 0 0-4.7 1.5.5.5 0 0 0-.2.2C1.2 8.1.7 11.6 2.1 15a.5.5 0 0 0 .2.3 19 19 0 0 0 5.8 2.9.5.5 0 0 0 .5-.2l1.2-1.6a12 12 0 0 1-1.9-.9l.5-.4a14 14 0 0 0 7.2 0l.5.4a12 12 0 0 1-1.9.9l1.2 1.6a.5.5 0 0 0 .5.2 19 19 0 0 0 5.8-2.9.5.5 0 0 0 .2-.3c1.5-3.5 1-6.9-.6-10.4a.5.5 0 0 0-.2-.2ZM8.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/>
+              </svg>
+            </span>
+            Discord
+          </a>
+
+          <a class="socialBtn" href="https://nl.namemc.com/profile/Intallact.2" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <!-- NameMC-ish icon (simple cube) -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2 3 6.5v11L12 22l9-4.5v-11L12 2Zm0 2.3 6.9 3.4L12 11 5.1 7.7 12 4.3Zm-7 5.6 6 3v7.2l-6-3V9.9Zm14 0v7.2l-6 3V12.9l6-3Z"/>
+              </svg>
+            </span>
+            NameMC
+          </a>
+
+          <a class="socialBtn" href="https://open.spotify.com/user/31a3cycsgf2codxkv6jnwejhqz6i?si=fb666542c2854ed0" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <!-- Spotify icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5Zm4.8 15.1a.9.9 0 0 1-1.2.3c-2.7-1.6-6.1-1.9-10-.8a.9.9 0 1 1-.5-1.7c4.3-1.2 8.1-.8 11.1 1a.9.9 0 0 1 .6 1.2Zm.9-3a1 1 0 0 1-1.4.4c-3.1-1.9-7.8-2.5-11.4-1.4a1 1 0 1 1-.6-1.9c4.1-1.2 9.2-.6 12.7 1.6a1 1 0 0 1 .7 1.3Zm.1-3.2c-3.7-2.2-9.7-2.4-13.3-1.3a1.1 1.1 0 1 1-.6-2.1c4.2-1.2 11-1 15.4 1.6a1.1 1.1 0 0 1 .4 1.5 1.1 1.1 0 0 1-1.9.3Z"/>
+              </svg>
+            </span>
+            Spotify
+          </a>
+
+          <a class="socialBtn" href="https://en.pronouns.page/@intallact" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <!-- Pronouns icon (tag) -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 10.5 13.5 4H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h7.5L20 10.5ZM7.7 8.7a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4ZM13.5 20a2 2 0 0 0 2-2v-6l-2 2v4h-8l-2-2V8h-2v8a2 2 0 0 0 2 2h10Z"/>
+              </svg>
+            </span>
+            Pronouns
+          </a>
+        </div>
+
+        <div class="foot">
+          <div class="hint">Tip: click anywhere to spawn a firework.</div>
+          <a class="miniBtn" href="https://discord.com/users/506950390839902208" target="_blank" rel="noopener">
+            View profile
+          </a>
+        </div>
       </div>
-      <div class="status-bubble" id="playStatus">—</div>
     </div>
-
-    <div class="socials">
-      <a href="https://t.me/intallact" target="_blank"><i class="fa-brands fa-telegram-plane"></i></a>
-      <a href="https://discord.com/users/1011756509501333532" target="_blank"><i class="fa-brands fa-discord"></i></a>
-      <a href="https://namemc.com/profile/Intallact" target="_blank"><i class="fa-solid fa-cube"></i></a>
-      <a href="https://open.spotify.com/user/Edit-This" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-      <a href="https://snapchat.com/add/Intallact" target="_blank"><i class="fa-brands fa-snapchat-ghost"></i></a>
-      <a href="https://soundcloud.com/Intallact" target="_blank"><i class="fa-brands fa-soundcloud"></i></a>
-    </div>
-
-    <div class="meta" id="metaLine">Discord &middot; Last.fm live</div>
   </div>
 
-<script>
-  const DISCORD_ID = "1011756509501333532";
-  const LASTFM_USER = "intallact";
-  const LASTFM_KEY = "af797f62bb1ace280d470c5cb112e6b7";
-  const $ = id => document.getElementById(id);
+  <script>
+    // ----------------------------
+    // Discord + Spotify presence (Lanyard)
+    // ----------------------------
+    const USER_ID = "506950390839902208";
 
-  window.addEventListener("load", ()=>{
-    setTimeout(()=>{
-      $("loader").classList.add("hidden");
-      $("profileCard").classList.add("show");
-    },1000);
-  });
+    const elName = document.getElementById("displayName");
+    const elAvatar = document.getElementById("avatarImg");
+    const elPresence = document.getElementById("presenceText");
 
-  fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
-    .then(r=>r.json())
-    .then(d=>{
-      const u=d.data.discord_user;
-      const url=u.avatar?`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=512`:`https://cdn.discordapp.com/embed/avatars/${parseInt(u.id)%5}.png`;
-      $("avatar").src=url;
-      $("displayName").textContent = u.global_name || u.username;
+    const elSongTitle = document.getElementById("songTitle");
+    const elSongArtist = document.getElementById("songArtist");
+    const elAlbum = document.getElementById("albumArt");
+    const elSongLink = document.getElementById("songLink");
+
+    function cdnAvatar(id, avatarHash) {
+      if (!avatarHash) return null;
+      const ext = avatarHash.startsWith("a_") ? "gif" : "png";
+      return `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=256`;
+    }
+
+    function statusText(s){
+      if (s === "online") return "Online";
+      if (s === "idle") return "Idle";
+      if (s === "dnd") return "Do not disturb";
+      return "Offline";
+    }
+
+    async function loadPresence(){
+      try{
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`, { cache: "no-store" });
+        const json = await res.json();
+        const data = json?.data;
+        if(!data) throw new Error("No data");
+
+        // Name + avatar
+        const du = data.discord_user || {};
+        const name = du.global_name || du.username || "whyucry";
+        elName.textContent = name;
+
+        const avatarUrl = cdnAvatar(du.id, du.avatar);
+        if (avatarUrl) elAvatar.src = avatarUrl;
+
+        // Presence
+        elPresence.textContent = statusText(data.discord_status);
+
+        // Spotify / last played
+        if (data.listening_to_spotify && data.spotify){
+          const sp = data.spotify;
+          elSongTitle.textContent = sp.song || "Listening on Spotify";
+          elSongArtist.textContent = `${sp.artist || ""}${sp.album ? " • " + sp.album : ""}`;
+          if (sp.album_art_url) elAlbum.src = sp.album_art_url;
+
+          // We don't always get a direct track link from lanyard.
+          // So we link to your Spotify profile by default.
+          elSongLink.href = "https://open.spotify.com/";
+        } else {
+          elSongTitle.textContent = "Last played song";
+          elSongArtist.textContent = "Not playing right now";
+          elAlbum.src = "10d5278865d66a62e9f86c7bc711fb08.jpg";
+          elSongLink.href = "https://open.spotify.com/user/31a3cycsgf2codxkv6jnwejhqz6i?si=fb666542c2854ed0";
+        }
+      } catch (e){
+        elPresence.textContent = "Status unavailable";
+        elSongTitle.textContent = "Last played song";
+        elSongArtist.textContent = "Could not load (API blocked?)";
+      }
+    }
+
+    loadPresence();
+    setInterval(loadPresence, 12000);
+
+    // ----------------------------
+    // Fireworks particles (canvas)
+    // ----------------------------
+    const canvas = document.getElementById("fw");
+    const ctx = canvas.getContext("2d");
+
+    let W = 0, H = 0, DPR = 1;
+
+    function resize(){
+      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      W = Math.floor(window.innerWidth * DPR);
+      H = Math.floor(window.innerHeight * DPR);
+      canvas.width = W;
+      canvas.height = H;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const gravity = 0.045;
+    const rockets = [];
+    const sparks = [];
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+    function pick(arr){ return arr[(Math.random() * arr.length) | 0]; }
+
+    const palette = [
+      {r:255,g:120,b:180},
+      {r:120,g:200,b:255},
+      {r:255,g:200,b:120},
+      {r:160,g:255,b:170},
+      {r:200,g:160,b:255},
+    ];
+
+    function spawnRocket(x = rand(W*0.2, W*0.8), y = H + 10){
+      const targetY = rand(H*0.15, H*0.45);
+      rockets.push({
+        x, y,
+        vx: rand(-0.4, 0.4),
+        vy: rand(-7.8, -6.2),
+        targetY,
+        color: pick(palette),
+        trail: [],
+        burst: false,
+      });
+    }
+
+    function burst(x, y, baseColor){
+      const count = Math.floor(rand(55, 95));
+      for (let i = 0; i < count; i++){
+        const a = rand(0, Math.PI * 2);
+        const sp = rand(1.6, 4.8);
+        const c = baseColor || pick(palette);
+        sparks.push({
+          x, y,
+          vx: Math.cos(a) * sp,
+          vy: Math.sin(a) * sp,
+          life: rand(55, 95),
+          maxLife: 0,
+          r: c.r, g: c.g, b: c.b,
+          size: rand(1.1, 2.2),
+        });
+      }
+    }
+
+    // Click to burst
+    window.addEventListener("pointerdown", (e) => {
+      const x = e.clientX * DPR;
+      const y = e.clientY * DPR;
+      burst(x, y, pick(palette));
     });
 
-  async function fetchLastFm(){
-    const res=await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`);
-    const j=await res.json();
-    const t=j.recenttracks.track[0];
-    const now=t["@attr"]&&t["@attr"].nowplaying==="true";
-    $("trackTitle").textContent=t.name;
-    $("trackArtist").textContent=t.artist["#text"];
-    $("albumImg").src=t.image.pop()["#text"];
-    $("playStatus").textContent=now?"Now playing":"Last played";
-  }
-  fetchLastFm(); setInterval(fetchLastFm,60000);
-</script>
+    // Soft glow background paint
+    function fadeBg(){
+      ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+      ctx.fillRect(0, 0, W, H);
+    }
 
+    function draw(){
+      requestAnimationFrame(draw);
+      fadeBg();
+
+      // auto spawn
+      if (Math.random() < 0.03) spawnRocket();
+
+      // rockets
+      for (let i = rockets.length - 1; i >= 0; i--){
+        const r = rockets[i];
+        r.x += r.vx;
+        r.y += r.vy;
+
+        // tiny drag + gravity
+        r.vx *= 0.995;
+        r.vy += gravity * 0.55;
+
+        // trail
+        r.trail.push({x:r.x, y:r.y});
+        if (r.trail.length > 18) r.trail.shift();
+
+        // draw trail
+        for (let t = 0; t < r.trail.length; t++){
+          const p = r.trail[t];
+          const a = t / r.trail.length;
+          ctx.fillStyle = `rgba(${r.color.r},${r.color.g},${r.color.b},${a*0.55})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.2 * DPR, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+        // rocket head
+        ctx.fillStyle = `rgba(${r.color.r},${r.color.g},${r.color.b},0.9)`;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, 1.8 * DPR, 0, Math.PI*2);
+        ctx.fill();
+
+        if (r.y <= r.targetY && !r.burst){
+          r.burst = true;
+          burst(r.x, r.y, r.color);
+          rockets.splice(i, 1);
+        }
+
+        if (r.y < -40) rockets.splice(i, 1);
+      }
+
+      // sparks
+      for (let i = sparks.length - 1; i >= 0; i--){
+        const s = sparks[i];
+        if (s.maxLife === 0) s.maxLife = s.life;
+
+        s.x += s.vx;
+        s.y += s.vy;
+
+        s.vx *= 0.985;
+        s.vy *= 0.985;
+        s.vy += gravity;
+
+        s.life -= 1;
+
+        const a = Math.max(0, s.life / s.maxLife);
+        const glow = 0.65 * a;
+
+        ctx.fillStyle = `rgba(${s.r},${s.g},${s.b},${0.9*a})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size * DPR, 0, Math.PI*2);
+        ctx.fill();
+
+        // soft glow dot
+        ctx.fillStyle = `rgba(${s.r},${s.g},${s.b},${glow})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, (s.size * 2.2) * DPR, 0, Math.PI*2);
+        ctx.fill();
+
+        if (s.life <= 0) sparks.splice(i, 1);
+      }
+    }
+
+    // Start with a few bursts
+    for (let i = 0; i < 3; i++){
+      setTimeout(() => spawnRocket(rand(W*0.25, W*0.75)), 250 * i);
+    }
+
+    // Clear first frame so it looks clean
+    ctx.clearRect(0,0,W,H);
+    draw();
+  </script>
 </body>
 </html>
