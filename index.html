@@ -1,676 +1,679 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>whyucry</title>
-
-  <!-- Your website icon (2nd image) -->
-  <link rel="icon" type="image/jpeg" href="10d5278865d66a62e9f86c7bc711fb08.jpg" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>whitepink site</title>
   <style>
     :root{
-      --glass: rgba(18, 22, 35, 0.45);
-      --glass2: rgba(255, 255, 255, 0.08);
-      --stroke: rgba(255,255,255,0.18);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.68);
-      --shadow: 0 25px 70px rgba(0,0,0,0.55);
-      --radius: 26px;
+      --bg: #fff7fb;
+      --panel: #ffffff;
+      --panel-2: #fff0f7;
+      --text: #1f1f1f;
+      --muted: #6b5b67;
+      --border: #f1cfe0;
+      --shadow: 0 18px 60px rgba(20, 10, 20, .10);
+
+      --accent: #ff6fb1;
+      --tab: #ffe1ef;
+
+      --radius: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
     body{
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      margin:0;
+      font-family: var(--sans);
       color: var(--text);
-      overflow: hidden;
-      background: #05070e;
-    }
-
-    /* Background image */
-    .bg{
-      position: fixed;
-      inset: 0;
-      background-image: url("anime_building_house_colorful_fireworks_hd_anime.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      transform: scale(1.03);
-      filter: saturate(1.08) contrast(1.05);
-      z-index: 0;
-    }
-
-    /* Soft dark overlay for readability */
-    .overlay{
-      position: fixed;
-      inset: 0;
       background:
-        radial-gradient(1200px 600px at 50% 25%, rgba(0,0,0,0.20), rgba(0,0,0,0.55)),
-        linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.60));
-      z-index: 1;
+        radial-gradient(1200px 700px at 20% 15%, #ffe7f3 0%, transparent 60%),
+        radial-gradient(1000px 600px at 80% 80%, #ffe0f0 0%, transparent 55%),
+        var(--bg);
+      overflow:hidden;
     }
 
-    /* Fireworks canvas */
-    canvas#fw{
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode:multiply;
+      opacity:.18;
+      pointer-events:none;
     }
 
-    /* Center layout */
     .wrap{
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 22px;
-      z-index: 3;
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
 
-    /* Main card */
-    .card{
-      width: min(720px, 92vw);
+    .window{
+      width:min(860px, 92vw);
+      background: linear-gradient(180deg, var(--panel) 0%, #fffafd 100%);
+      border:1px solid var(--border);
       border-radius: var(--radius);
-      background: linear-gradient(135deg, var(--glass), rgba(18, 22, 35, 0.25));
-      border: 1px solid var(--stroke);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(12px) scale(0.99);
-      animation: fadeIn 900ms ease forwards;
+      overflow:hidden;
     }
 
-    @keyframes fadeIn{
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    .titlebar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      background: linear-gradient(180deg, #fff6fb 0%, #fff0f7 100%);
+      border-bottom:1px solid var(--border);
     }
 
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(600px 220px at 30% 0%, rgba(255,255,255,0.14), transparent 65%);
-      pointer-events:none;
-      opacity: 0.9;
-    }
-
-    .cardInner{
-      position: relative;
-      padding: 26px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .topRow{
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 18px;
-      align-items: center;
-    }
-
-    .avatar{
-      width: 84px;
-      height: 84px;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.20);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.45);
-      transform: translateZ(0);
-      transition: transform 180ms ease, filter 180ms ease;
-      background: rgba(255,255,255,0.06);
-    }
-    .avatar img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-    }
-    .card:hover .avatar{
-      transform: scale(1.03);
-      filter: brightness(1.06);
-    }
-
-    .title{
-      display: grid;
-      gap: 6px;
-      min-width: 0;
-    }
-    .name{
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-      line-height: 1.1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .tag{
-      font-size: 13px;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.14);
-      width: fit-content;
-    }
-
-    .pill{
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.14);
-      width: fit-content;
-    }
-
+    .dots{ display:flex; gap:8px; align-items:center; }
     .dot{
-      width: 9px;
-      height: 9px;
-      border-radius: 99px;
-      background: #66ff9d;
-      box-shadow: 0 0 18px rgba(102,255,157,0.65);
-      animation: pulse 1.4s ease-in-out infinite;
+      width:11px; height:11px; border-radius:50%;
+      border:1px solid rgba(0,0,0,.08);
+      background:#ffd0e6;
     }
-    @keyframes pulse{
-      0%,100%{ transform: scale(1); opacity: 0.9; }
-      50%{ transform: scale(1.35); opacity: 0.65; }
-    }
+    .dot:nth-child(2){ background:#ffe0f0; }
+    .dot:nth-child(3){ background:#fff0f7; }
 
-    .songBox{
-      display: grid;
-      grid-template-columns: 56px 1fr auto;
-      gap: 14px;
-      align-items: center;
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.14);
-      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
-    }
-    .card:hover .songBox{
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
-    }
-
-    .album{
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.06);
-    }
-    .album img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-    }
-
-    .songText{
-      display: grid;
-      gap: 3px;
-      min-width: 0;
-    }
-    .songTitle{
-      font-weight: 750;
-      font-size: 15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .songArtist{
-      font-size: 13px;
+    .brand{
+      font-family: var(--mono);
+      font-size:12px;
       color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      letter-spacing:.3px;
+      user-select:none;
     }
 
-    .miniBtn{
-      height: 38px;
-      padding: 0 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(0,0,0,0.15);
-      color: var(--text);
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      user-select: none;
-    }
-    .miniBtn:hover{
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.22);
-    }
-    .miniBtn:active{ transform: translateY(0px) scale(0.99); }
-
-    .socials{
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+    .tabs{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
     }
 
-    .socialBtn{
-      padding: 12px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-weight: 750;
-      transition: transform 170ms ease, background 170ms ease, border-color 170ms ease;
-      position: relative;
-      overflow: hidden;
+    .tab{
+      font-family: var(--mono);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: var(--tab);
+      color:#3a2a35;
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease;
+    }
+    .tab:hover{ transform: translateY(-1px); }
+    .tab[aria-selected="true"]{
+      background: linear-gradient(180deg, #ffeff7 0%, #ffe3f0 100%);
+      border-color:#f2b8d4;
+      box-shadow: 0 8px 20px rgba(255, 111, 177, .18);
     }
 
-    .socialBtn::after{
+    .content{
+      display:grid;
+      grid-template-columns: 240px 1fr;
+      gap:14px;
+      padding:14px;
+      background: linear-gradient(180deg, #fffafd 0%, #fff7fb 100%);
+    }
+
+    .side{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fff 0%, var(--panel-2) 100%);
+      overflow:hidden;
+    }
+
+    /* profile frame */
+    .pfp{
+      height:160px;
+      border-bottom:1px solid var(--border);
+      padding:10px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-start;
+      background:
+        radial-gradient(200px 130px at 30% 30%, #ffd6ea 0%, transparent 60%),
+        radial-gradient(240px 160px at 70% 80%, #ffe6f3 0%, transparent 55%),
+        #fff;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .pfp img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform: scale(1.02);
+      filter:saturate(1.05);
+    }
+
+    .pfp .tag{
+      position:relative;
+      z-index:2;
+      font-family: var(--mono);
+      font-size:12px;
+      padding:6px 8px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background:#ffffffcc;
+      backdrop-filter: blur(6px);
+      color:#3a2a35;
+    }
+
+    .meta{
+      padding:10px 12px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .spotifybox{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:12px;
+      padding:10px;
+    }
+
+    .spotify-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+    }
+
+    .spotify-title{
+      font-family: var(--mono);
+      font-size:12px;
+      color:#2b1f28;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .dotlive{
+      width:8px; height:8px; border-radius:50%;
+      background:#ff6fb1;
+      box-shadow: 0 0 0 4px rgba(255,111,177,.18);
+      flex:0 0 auto;
+    }
+
+    .spotify-line{
+      font-family: var(--mono);
+      font-size:11px;
+      color: var(--muted);
+      line-height:1.35;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .spotify-big{
+      font-size:12px;
+      font-family: var(--mono);
+      color:#2a2028;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pillrow{ display:flex; gap:8px; flex-wrap:wrap; }
+    .pill{
+      font-family: var(--mono);
+      font-size:11px;
+      padding:6px 8px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:#3a2a35;
+    }
+
+    .main{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background:#fff;
+      padding:12px;
+      min-height:240px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .main::after{
       content:"";
       position:absolute;
-      inset:-2px;
-      background: radial-gradient(300px 90px at 50% 0%, rgba(255,255,255,0.16), transparent 60%);
-      opacity: 0;
-      transition: opacity 170ms ease;
+      inset:-40px -40px auto auto;
+      width:180px;
+      height:180px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,111,177,.22), transparent 60%);
       pointer-events:none;
     }
 
-    .socialBtn:hover{
-      transform: translateY(-3px);
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(255,255,255,0.22);
+    .panel-title{
+      font-family: var(--mono);
+      font-size:12px;
+      color: #402e38;
+      margin:0 0 8px 0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      position:relative;
+      z-index:1;
     }
-    .socialBtn:hover::after{ opacity: 1; }
-    .socialBtn:active{ transform: translateY(0px) scale(0.99); }
 
-    .icon{
-      width: 18px;
-      height: 18px;
-      display: inline-block;
+    .panel-title .line{
+      height:1px;
+      flex:1;
+      background: linear-gradient(90deg, #f3c7dc 0%, transparent 100%);
     }
-    .icon svg{ width: 18px; height: 18px; display:block; }
 
-    .foot{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 2px;
+    .text{
+      margin:0;
+      font-size:14px;
+      line-height:1.55;
+      color:#2a2028;
+      position:relative;
+      z-index:1;
+    }
+
+    .list{
+      margin:10px 0 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 10px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #fff7fb 100%);
+    }
+
+    .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .mc-head{
+      width:28px; height:28px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background:#fff;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .mc-head img{
+      width:100%; height:100%;
+      object-fit:cover;
+      image-rendering: pixelated;
+    }
+
+    .labelwrap{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .label{
+      font-family: var(--mono);
+      font-size:12px;
+      color:#2b1f28;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .hint{
-      color: rgba(255,255,255,0.55);
-      font-size: 12px;
-      user-select: none;
+      font-family: var(--mono);
+      font-size:11px;
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    /* Mobile */
-    @media (max-width: 620px){
-      .topRow{ grid-template-columns: 1fr; justify-items: center; text-align: center; }
-      .name{ justify-content: center; }
-      .tag{ margin: 0 auto; }
-      .songBox{ grid-template-columns: 56px 1fr; }
-      .songBox a{ grid-column: 1 / -1; justify-content: center; }
-      .socials{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .foot{ justify-content: center; }
+    a.btn{
+      font-family: var(--mono);
+      font-size:12px;
+      text-decoration:none;
+      color:#3a2a35;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid #f0b5d1;
+      background: linear-gradient(180deg, #ffeff7 0%, #ffe2f0 100%);
+      box-shadow: 0 10px 26px rgba(255, 111, 177, .14);
+      flex:0 0 auto;
+    }
+    a.btn:hover{ filter:brightness(0.98); }
+
+    /* scroll area inside main frame */
+    .scrollbox{
+      max-height: 230px;
+      overflow:auto;
+      padding-right:6px;
+      position:relative;
+      z-index:1;
+    }
+    .scrollbox::-webkit-scrollbar{ width:10px; }
+    .scrollbox::-webkit-scrollbar-thumb{
+      background:#ffd0e6;
+      border-radius:999px;
+      border:2px solid #fff;
+    }
+
+    /* flags in about */
+    .flags{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:10px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .flag{
+      width:30px;
+      height:20px;
+      border-radius:0px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      box-shadow: 0 10px 24px rgba(255,111,177,.10);
+      background:#fff;
+    }
+    .flag > div{ height:100%; width:100%; }
+
+    .flag.trans > div{
+      background: linear-gradient(
+        to bottom,
+        #5BCFFA 0%,
+        #5BCFFA 20%,
+        #F5A9B8 20%,
+        #F5A9B8 40%,
+        #FFFFFF 40%,
+        #FFFFFF 60%,
+        #F5A9B8 60%,
+        #F5A9B8 80%,
+        #5BCFFA 80%,
+        #5BCFFA 100%
+      );
+    }
+
+    .flag.bi > div{
+      background: linear-gradient(
+        to bottom,
+        #D60270 0%,
+        #D60270 40%,
+        #9B4F96 40%,
+        #9B4F96 60%,
+        #0038A8 60%,
+        #0038A8 100%
+      );
+    }
+
+    @media (max-width: 720px){
+      body{ overflow:auto; }
+      .content{ grid-template-columns: 1fr; }
+      .pfp{ height:140px; }
+      .scrollbox{ max-height: 260px; }
     }
   </style>
 </head>
 <body>
-  <div class="bg"></div>
-  <div class="overlay"></div>
-  <canvas id="fw"></canvas>
-
   <div class="wrap">
-    <div class="card" id="card">
-      <div class="cardInner">
-        <div class="topRow">
-          <div class="avatar">
-            <!-- Fallback: use your provided image if API fails -->
-            <img id="avatarImg" src="10d5278865d66a62e9f86c7bc711fb08.jpg" alt="avatar" />
+    <div class="window" role="application" aria-label="profile window">
+      <div class="titlebar">
+        <div class="dots" aria-hidden="true">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+
+        <div class="brand">☆ / aria.html</div>
+
+        <div class="tabs" role="tablist" aria-label="sections">
+          <button class="tab" role="tab" aria-selected="true" data-tab="about">about</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="socials">socials</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="accounts">accounts</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <aside class="side">
+          <div class="pfp">
+            <img id="discordPfp" alt="discord profile picture" />
+            <span class="tag">she/her</span>
           </div>
 
-          <div class="title">
-            <div class="name">
-              <span id="displayName">whyucry</span>
+          <div class="meta">
+            <div class="spotifybox">
+              <div class="spotify-top">
+                <div class="spotify-title">
+                  <span class="dotlive" aria-hidden="true"></span>
+                  spotify
+                </div>
+                <div class="spotify-line" id="spotifyState">loading…</div>
+              </div>
+              <div class="spotify-big" id="spotifyTrack">—</div>
+              <div class="spotify-line" id="spotifyArtist">—</div>
             </div>
-            <div class="tag">@whyucry</div>
-            <div class="pill" id="presencePill">
-              <span class="dot"></span>
-              <span id="presenceText">Loading status…</span>
+
+            <div class="pillrow">
             </div>
           </div>
-        </div>
+        </aside>
 
-        <div class="songBox">
-          <div class="album">
-            <img id="albumArt" src="10d5278865d66a62e9f86c7bc711fb08.jpg" alt="album" />
-          </div>
+        <main class="main">
+          <!-- ABOUT -->
+          <section class="panel" data-panel="about">
+            <h2 class="panel-title">about <span class="line"></span></h2>
+            <p class="text">
+              hi, my name is Aria, i'm a 16 (soon to be 17) year old transgirl from the Netherlands<br>
+              i enjoy playing minecraft, roblox, star wars battlefront & alot of other stuff :D<br><br>
+            </p>
 
-          <div class="songText">
-            <div class="songTitle" id="songTitle">Last played song</div>
-            <div class="songArtist" id="songArtist">Fetching from Discord…</div>
-          </div>
+            <div class="flags" aria-hidden="true">
+              <div class="flag trans"><div></div></div>
+              <div class="flag bi"><div></div></div>
+            </div>
+          </section>
 
-          <a class="miniBtn" id="songLink" href="https://open.spotify.com/" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <!-- Spotify icon -->
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5Zm4.8 15.1a.9.9 0 0 1-1.2.3c-2.7-1.6-6.1-1.9-10-.8a.9.9 0 1 1-.5-1.7c4.3-1.2 8.1-.8 11.1 1a.9.9 0 0 1 .6 1.2Zm.9-3a1 1 0 0 1-1.4.4c-3.1-1.9-7.8-2.5-11.4-1.4a1 1 0 1 1-.6-1.9c4.1-1.2 9.2-.6 12.7 1.6a1 1 0 0 1 .7 1.3Zm.1-3.2c-3.7-2.2-9.7-2.4-13.3-1.3a1.1 1.1 0 1 1-.6-2.1c4.2-1.2 11-1 15.4 1.6a1.1 1.1 0 0 1 .4 1.5 1.1 1.1 0 0 1-1.9.3Z"/>
-              </svg>
-            </span>
-            Open
-          </a>
-        </div>
+          <!-- SOCIALS -->
+          <section class="panel" data-panel="socials" hidden>
+            <h2 class="panel-title">socials <span class="line"></span></h2>
+            <ul class="list">
+              <li class="item">
+                <div class="left">
+                  <div class="labelwrap">
+                    <div class="label">roblox / x</div>
+                    <div class="hint">@???</div>
+                  </div>
+                </div>
+                <a class="btn" href="#" target="_blank" rel="noreferrer">open</a>
+              </li>
+              <li class="item">
+                <div class="left">
+                  <div class="labelwrap">
+                    <div class="label">tiktok</div>
+                    <div class="hint">@intallact</div>
+                  </div>
+                </div>
+                <a class="btn" href="#" target="_blank" rel="noreferrer">open</a>
+              </li>
+              <li class="item">
+                <div class="left">
+                  <div class="labelwrap">
+                    <div class="label">discord</div>
+                    <div class="hint">506950390839902208</div>
+                  </div>
+                </div>
+                <a class="btn" href="#" target="_blank" rel="noreferrer">open</a>
+              </li>
+            </ul>
+          </section>
 
-        <div class="socials">
-          <a class="socialBtn" href="https://discord.com/users/506950390839902208" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <!-- Discord icon -->
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.3 4.4a19 19 0 0 0-4.7-1.5l-.2.4a18 18 0 0 1 3.6 1.4c-1.5-1-3.2-1.7-5-2.1a.5.5 0 0 0-.5.2l-.7 1a17 17 0 0 0-3.6 0l-.7-1a.5.5 0 0 0-.5-.2c-1.8.4-3.5 1.1-5 2.1a18 18 0 0 1 3.6-1.4l-.2-.4a19 19 0 0 0-4.7 1.5.5.5 0 0 0-.2.2C1.2 8.1.7 11.6 2.1 15a.5.5 0 0 0 .2.3 19 19 0 0 0 5.8 2.9.5.5 0 0 0 .5-.2l1.2-1.6a12 12 0 0 1-1.9-.9l.5-.4a14 14 0 0 0 7.2 0l.5.4a12 12 0 0 1-1.9.9l1.2 1.6a.5.5 0 0 0 .5.2 19 19 0 0 0 5.8-2.9.5.5 0 0 0 .2-.3c1.5-3.5 1-6.9-.6-10.4a.5.5 0 0 0-.2-.2ZM8.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/>
-              </svg>
-            </span>
-            Discord
-          </a>
-
-          <a class="socialBtn" href="https://nl.namemc.com/profile/Intallact.2" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <!-- NameMC-ish icon (simple cube) -->
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2 3 6.5v11L12 22l9-4.5v-11L12 2Zm0 2.3 6.9 3.4L12 11 5.1 7.7 12 4.3Zm-7 5.6 6 3v7.2l-6-3V9.9Zm14 0v7.2l-6 3V12.9l6-3Z"/>
-              </svg>
-            </span>
-            NameMC
-          </a>
-
-          <a class="socialBtn" href="https://open.spotify.com/user/31a3cycsgf2codxkv6jnwejhqz6i?si=fb666542c2854ed0" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <!-- Spotify icon -->
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5Zm4.8 15.1a.9.9 0 0 1-1.2.3c-2.7-1.6-6.1-1.9-10-.8a.9.9 0 1 1-.5-1.7c4.3-1.2 8.1-.8 11.1 1a.9.9 0 0 1 .6 1.2Zm.9-3a1 1 0 0 1-1.4.4c-3.1-1.9-7.8-2.5-11.4-1.4a1 1 0 1 1-.6-1.9c4.1-1.2 9.2-.6 12.7 1.6a1 1 0 0 1 .7 1.3Zm.1-3.2c-3.7-2.2-9.7-2.4-13.3-1.3a1.1 1.1 0 1 1-.6-2.1c4.2-1.2 11-1 15.4 1.6a1.1 1.1 0 0 1 .4 1.5 1.1 1.1 0 0 1-1.9.3Z"/>
-              </svg>
-            </span>
-            Spotify
-          </a>
-
-          <a class="socialBtn" href="https://en.pronouns.page/@intallact" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <!-- Pronouns icon (tag) -->
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 10.5 13.5 4H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h7.5L20 10.5ZM7.7 8.7a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4ZM13.5 20a2 2 0 0 0 2-2v-6l-2 2v4h-8l-2-2V8h-2v8a2 2 0 0 0 2 2h10Z"/>
-              </svg>
-            </span>
-            Pronouns
-          </a>
-        </div>
-
-        <div class="foot">
-          <div class="hint">Tip: click anywhere to spawn a firework.</div>
-          <a class="miniBtn" href="https://discord.com/users/506950390839902208" target="_blank" rel="noopener">
-            View profile
-          </a>
-        </div>
+          <!-- ACCOUNTS (MINECRAFT) -->
+          <section class="panel" data-panel="accounts" hidden>
+            <h2 class="panel-title">minecraft accounts <span class="line"></span></h2>
+            <div class="scrollbox">
+              <ul class="list" id="mcList"></ul>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
   </div>
 
   <script>
-    // ----------------------------
-    // Discord + Spotify presence (Lanyard)
-    // ----------------------------
-    const USER_ID = "506950390839902208";
+    // --- tabs ---
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".panel");
 
-    const elName = document.getElementById("displayName");
-    const elAvatar = document.getElementById("avatarImg");
-    const elPresence = document.getElementById("presenceText");
-
-    const elSongTitle = document.getElementById("songTitle");
-    const elSongArtist = document.getElementById("songArtist");
-    const elAlbum = document.getElementById("albumArt");
-    const elSongLink = document.getElementById("songLink");
-
-    function cdnAvatar(id, avatarHash) {
-      if (!avatarHash) return null;
-      const ext = avatarHash.startsWith("a_") ? "gif" : "png";
-      return `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=256`;
-    }
-
-    function statusText(s){
-      if (s === "online") return "Online";
-      if (s === "idle") return "Idle";
-      if (s === "dnd") return "Do not disturb";
-      return "Offline";
-    }
-
-    async function loadPresence(){
-      try{
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`, { cache: "no-store" });
-        const json = await res.json();
-        const data = json?.data;
-        if(!data) throw new Error("No data");
-
-        // Name + avatar
-        const du = data.discord_user || {};
-        const name = du.global_name || du.username || "whyucry";
-        elName.textContent = name;
-
-        const avatarUrl = cdnAvatar(du.id, du.avatar);
-        if (avatarUrl) elAvatar.src = avatarUrl;
-
-        // Presence
-        elPresence.textContent = statusText(data.discord_status);
-
-        // Spotify / last played
-        if (data.listening_to_spotify && data.spotify){
-          const sp = data.spotify;
-          elSongTitle.textContent = sp.song || "Listening on Spotify";
-          elSongArtist.textContent = `${sp.artist || ""}${sp.album ? " • " + sp.album : ""}`;
-          if (sp.album_art_url) elAlbum.src = sp.album_art_url;
-
-          // We don't always get a direct track link from lanyard.
-          // So we link to your Spotify profile by default.
-          elSongLink.href = "https://open.spotify.com/";
-        } else {
-          elSongTitle.textContent = "Last played song";
-          elSongArtist.textContent = "Not playing right now";
-          elAlbum.src = "10d5278865d66a62e9f86c7bc711fb08.jpg";
-          elSongLink.href = "https://open.spotify.com/user/31a3cycsgf2codxkv6jnwejhqz6i?si=fb666542c2854ed0";
-        }
-      } catch (e){
-        elPresence.textContent = "Status unavailable";
-        elSongTitle.textContent = "Last played song";
-        elSongArtist.textContent = "Could not load (API blocked?)";
-      }
-    }
-
-    loadPresence();
-    setInterval(loadPresence, 12000);
-
-    // ----------------------------
-    // Fireworks particles (canvas)
-    // ----------------------------
-    const canvas = document.getElementById("fw");
-    const ctx = canvas.getContext("2d");
-
-    let W = 0, H = 0, DPR = 1;
-
-    function resize(){
-      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      W = Math.floor(window.innerWidth * DPR);
-      H = Math.floor(window.innerHeight * DPR);
-      canvas.width = W;
-      canvas.height = H;
-    }
-    window.addEventListener("resize", resize);
-    resize();
-
-    const gravity = 0.045;
-    const rockets = [];
-    const sparks = [];
-
-    function rand(min, max){ return Math.random() * (max - min) + min; }
-    function pick(arr){ return arr[(Math.random() * arr.length) | 0]; }
-
-    const palette = [
-      {r:255,g:120,b:180},
-      {r:120,g:200,b:255},
-      {r:255,g:200,b:120},
-      {r:160,g:255,b:170},
-      {r:200,g:160,b:255},
-    ];
-
-    function spawnRocket(x = rand(W*0.2, W*0.8), y = H + 10){
-      const targetY = rand(H*0.15, H*0.45);
-      rockets.push({
-        x, y,
-        vx: rand(-0.4, 0.4),
-        vy: rand(-7.8, -6.2),
-        targetY,
-        color: pick(palette),
-        trail: [],
-        burst: false,
+    function openTab(name){
+      tabs.forEach(t => {
+        const on = t.dataset.tab === name;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      panels.forEach(p => {
+        p.hidden = p.dataset.panel !== name;
       });
     }
+    tabs.forEach(t => t.addEventListener("click", () => openTab(t.dataset.tab)));
 
-    function burst(x, y, baseColor){
-      const count = Math.floor(rand(55, 95));
-      for (let i = 0; i < count; i++){
-        const a = rand(0, Math.PI * 2);
-        const sp = rand(1.6, 4.8);
-        const c = baseColor || pick(palette);
-        sparks.push({
-          x, y,
-          vx: Math.cos(a) * sp,
-          vy: Math.sin(a) * sp,
-          life: rand(55, 95),
-          maxLife: 0,
-          r: c.r, g: c.g, b: c.b,
-          size: rand(1.1, 2.2),
-        });
-      }
+    // --- lanyard ---
+    const DISCORD_ID = "506950390839902208";
+    const apiUrl = `https://api.lanyard.rest/v1/users/${DISCORD_ID}`;
+
+    const pfpEl = document.getElementById("discordPfp");
+    const spotifyState = document.getElementById("spotifyState");
+    const spotifyTrack = document.getElementById("spotifyTrack");
+    const spotifyArtist = document.getElementById("spotifyArtist");
+
+    function setNoSpotify(){
+      spotifyState.textContent = "not listening";
+      spotifyTrack.textContent = "—";
+      spotifyArtist.textContent = "—";
     }
 
-    // Click to burst
-    window.addEventListener("pointerdown", (e) => {
-      const x = e.clientX * DPR;
-      const y = e.clientY * DPR;
-      burst(x, y, pick(palette));
-    });
+    async function loadLanyard(){
+      try{
+        const res = await fetch(apiUrl, { cache: "no-store" });
+        const json = await res.json();
+        const d = json && json.data ? json.data : null;
 
-    // Soft glow background paint
-    function fadeBg(){
-      ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
-      ctx.fillRect(0, 0, W, H);
-    }
-
-    function draw(){
-      requestAnimationFrame(draw);
-      fadeBg();
-
-      // auto spawn
-      if (Math.random() < 0.03) spawnRocket();
-
-      // rockets
-      for (let i = rockets.length - 1; i >= 0; i--){
-        const r = rockets[i];
-        r.x += r.vx;
-        r.y += r.vy;
-
-        // tiny drag + gravity
-        r.vx *= 0.995;
-        r.vy += gravity * 0.55;
-
-        // trail
-        r.trail.push({x:r.x, y:r.y});
-        if (r.trail.length > 18) r.trail.shift();
-
-        // draw trail
-        for (let t = 0; t < r.trail.length; t++){
-          const p = r.trail[t];
-          const a = t / r.trail.length;
-          ctx.fillStyle = `rgba(${r.color.r},${r.color.g},${r.color.b},${a*0.55})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.2 * DPR, 0, Math.PI*2);
-          ctx.fill();
+        if(!d){
+          setNoSpotify();
+          return;
         }
 
-        // rocket head
-        ctx.fillStyle = `rgba(${r.color.r},${r.color.g},${r.color.b},0.9)`;
-        ctx.beginPath();
-        ctx.arc(r.x, r.y, 1.8 * DPR, 0, Math.PI*2);
-        ctx.fill();
-
-        if (r.y <= r.targetY && !r.burst){
-          r.burst = true;
-          burst(r.x, r.y, r.color);
-          rockets.splice(i, 1);
+        // avatar
+        const avatar = d.discord_user?.avatar;
+        const uid = d.discord_user?.id;
+        if(avatar && uid){
+          // gif avatars start with "a_"
+          const ext = avatar.startsWith("a_") ? "gif" : "png";
+          pfpEl.src = `https://cdn.discordapp.com/avatars/${uid}/${avatar}.${ext}?size=512`;
+        } else {
+          // fallback to default avatar look
+          pfpEl.removeAttribute("src");
         }
 
-        if (r.y < -40) rockets.splice(i, 1);
-      }
-
-      // sparks
-      for (let i = sparks.length - 1; i >= 0; i--){
-        const s = sparks[i];
-        if (s.maxLife === 0) s.maxLife = s.life;
-
-        s.x += s.vx;
-        s.y += s.vy;
-
-        s.vx *= 0.985;
-        s.vy *= 0.985;
-        s.vy += gravity;
-
-        s.life -= 1;
-
-        const a = Math.max(0, s.life / s.maxLife);
-        const glow = 0.65 * a;
-
-        ctx.fillStyle = `rgba(${s.r},${s.g},${s.b},${0.9*a})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * DPR, 0, Math.PI*2);
-        ctx.fill();
-
-        // soft glow dot
-        ctx.fillStyle = `rgba(${s.r},${s.g},${s.b},${glow})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, (s.size * 2.2) * DPR, 0, Math.PI*2);
-        ctx.fill();
-
-        if (s.life <= 0) sparks.splice(i, 1);
+        // spotify
+        if(d.spotify){
+          spotifyState.textContent = "listening";
+          spotifyTrack.textContent = d.spotify.song || "—";
+          spotifyArtist.textContent = d.spotify.artist || "—";
+        } else {
+          setNoSpotify();
+        }
+      } catch (e){
+        setNoSpotify();
       }
     }
 
-    // Start with a few bursts
-    for (let i = 0; i < 3; i++){
-      setTimeout(() => spawnRocket(rand(W*0.25, W*0.75)), 250 * i);
+    loadLanyard();
+    setInterval(loadLanyard, 15000);
+
+    // --- minecraft accounts list ---
+    const accounts = ["tgo", "Intallact", "Embryal", "Rebinded", "Dismantable", "blyssies", "Nuveth", "qRapid", "Embryal", "rescoping", "Kroniela", "Resyncing", "catboyrapid", "Absessivly", "Talyze", "Intraval", "Anzentic", "Twinth", "incomeloss", "Zythicial", "starrising", "overdrifted", "Rzpid", "impulsor"];
+
+    function headUrl(name){
+      // simple head render
+      return `https://minotar.net/helm/${encodeURIComponent(name)}/64.png`;
     }
 
-    // Clear first frame so it looks clean
-    ctx.clearRect(0,0,W,H);
-    draw();
+    function labyUrl(name){
+      return `https://laby.net/@${encodeURIComponent(name)}`;
+    }
+
+    const mcList = document.getElementById("mcList");
+
+    function renderAccounts(){
+      mcList.innerHTML = "";
+      for(const name of accounts){
+        const li = document.createElement("li");
+        li.className = "item";
+
+        const left = document.createElement("div");
+        left.className = "left";
+
+        const head = document.createElement("div");
+        head.className = "mc-head";
+        const img = document.createElement("img");
+        img.alt = `${name} head`;
+        img.src = headUrl(name);
+        head.appendChild(img);
+
+        const wrap = document.createElement("div");
+        wrap.className = "labelwrap";
+
+        const label = document.createElement("div");
+        label.className = "label";
+        label.textContent = name;
+
+        const hint = document.createElement("div");
+        hint.className = "hint";
+        hint.textContent = "minecraft";
+
+        wrap.appendChild(label);
+        wrap.appendChild(hint);
+
+        left.appendChild(head);
+        left.appendChild(wrap);
+
+        const a = document.createElement("a");
+        a.className = "btn";
+        a.href = labyUrl(name);
+        a.target = "_blank";
+        a.rel = "noreferrer";
+        a.textContent = "open";
+
+        li.appendChild(left);
+        li.appendChild(a);
+
+        mcList.appendChild(li);
+      }
+    }
+
+    renderAccounts();
   </script>
 </body>
 </html>
